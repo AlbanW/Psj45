@@ -1,0 +1,13 @@
+{
+	"autoload": {
+        "psr-4": {
+            "MyApp\\": "src"
+        }
+    },
+	"require": {
+		"mpdf/mpdf":"*",
+		"phpoffice/phpspreadsheet":"*",
+		"cboden/ratchet":"*",
+		"firebase/php-jwt": "1.0.*"
+    }
+}
