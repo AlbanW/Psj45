@@ -29,19 +29,21 @@ if( isset($_COOKIE['username']) && $_COOKIE['username']!=''){
 }
 if(isset($_REQUEST['uc']) && $_SESSION['username']!="" && isset($_COOKIE['username'])){
     $uc = $_REQUEST['uc'];
-    $part = $_REQUEST['p'];
-    switch($part)
+    if(isset($_REQUEST['p']))
     {
-        case 'stage':
-            {
-                include("vues/v_stage_header.inc.php");
-                break;
-            }
-        case 'licencie':
-            {
-                include("vues/v_header.inc.php");
-                break;
-            }
+        switch($_REQUEST['p'])
+        {
+            case 'stage':
+                {
+                    include("vues/v_stage_header.inc.php");
+                    break;
+                }
+            case 'licencie':
+                {
+                    include("vues/v_header.inc.php");
+                    break;
+                }
+        }
     }
     switch($uc)
     { // traitement de l'uc : on charge le contrôleur approprié. 
