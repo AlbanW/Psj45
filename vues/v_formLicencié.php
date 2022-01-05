@@ -41,8 +41,9 @@
             <li class="categorie_checkbox"> Licence gratuite </li>
             <li class="categorie_checkbox"> Compet équipe </li>
             <li class="categorie_checkbox"> Photo-Vidéo </li>
-            <li class="categorie_checkbox"> Loisir </li>
             <li class="categorie_checkbox"> Baby Ping </li>
+
+            <li class="categorie_checkbox"> Loisir </li>
         </ul>
         <br>
     ';
@@ -360,19 +361,6 @@
             </label>
         <?php } ?>
 
-        <?php if ($unLicencié['Loisir_hors_compétition'] == 1 || $unLicencié['Loisir_hors_compétition'] == "on") { ?>
-            <label class="checkbox_label" style="margin-left:37.5px ; margin-right:37.5px;">
-                <input disabled="disabled" type="checkbox" autocomplete="off" name="Loisir_hors_compétition[]" id="Loisir_hors_compétition" checked="checked" />
-                <span class="checkmark"></span>
-            </label>
-        <?php } else { ?>
-            <label class="checkbox_label" style="margin-left:37.5px ; margin-right:37.5px;">
-                <input disabled="disabled" type="checkbox" autocomplete="off" name="Loisir_hors_compétition[]" id="Loisir_hors_compétition" />
-                <span class="checkmark"></span>
-            </label>
-        </span>
-        <?php } ?>
-
         <?php if ($unLicencié['BABY_PING'] == 1 || $unLicencié['BABY_PING'] == "on") { ?>
             <label class="checkbox_label" style="margin-left:37.5px ; margin-right:37.5px;">
                 <input disabled="disabled" type="checkbox" autocomplete="off" name="babyPing[]" id="babyPing" checked="checked" />
@@ -381,6 +369,18 @@
         <?php } else { ?>
             <label class="checkbox_label" style="margin-left:37.5px ; margin-right:37.5px;">
                 <input disabled="disabled" type="checkbox" autocomplete="off" name="babyPing[]" id="babyPing" />
+                <span class="checkmark"></span>
+            </label>
+        <?php } ?>
+        
+        <?php if ($unLicencié['Loisir_hors_compétition'] == 1 || $unLicencié['Loisir_hors_compétition'] == "on") { ?>
+            <label class="checkbox_label" style="margin-left:37.5px ; margin-right:37.5px;">
+                <input disabled="disabled" type="checkbox" autocomplete="off" name="Loisir_hors_compétition[]" id="Loisir_hors_compétition" checked="checked" />
+                <span class="checkmark"></span>
+            </label>
+        <?php } else { ?>
+            <label class="checkbox_label" style="margin-left:37.5px ; margin-right:37.5px;">
+                <input disabled="disabled" type="checkbox" autocomplete="off" name="Loisir_hors_compétition[]" id="Loisir_hors_compétition" />
                 <span class="checkmark"></span>
             </label>
         </span>
