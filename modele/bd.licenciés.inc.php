@@ -275,17 +275,19 @@ date_default_timezone_set('Europe/Paris');
             if (isset($_POST['Licence_gratuite'])){$licGratuite=1;}else{$licGratuite=0;}
             if (isset($_POST['Participation_équipe_sénior'])){$equipeSenior=1;}else{$equipeSenior=0;}
             if (isset($_POST['Autorisation_photo_vidéo'])){$photoVideo=1;}else{$photoVideo=0;}
+            if (isset($_POST['BABY_PING'])){$babyPing=1;}else{$babyPing=0;}
+
             $req = $monPdo->prepare("UPDATE licencié SET Famille=:fam, Nom_licencié=:nom, Prénom_licencié=:prenom, Sexe=:sexe, Date_Naissance=:dateNaiss,
             Tel_mobile=:tel_mobile, Tel_domicile=:tel_domicile, Tel_travail=:tel_travail, Email_perso=:email_perso, Email_travail=:email_travail, Catégorie_1=:cat1,
             Type_licence=:type_licence,Inscription=:Inscription, Date_inscription=:Date_inscription, Participation_compétition_individuelle=:competIndiv,
             Saint_Jean_de_la_Ruelle=:SJR, Certificat_médical=:certificat, Membre_bureau=:Membre_bureau, 1ere_licence=:1ere_licence, Autre_club=:Autre_club, Essai=:Essai,
-            Stage_uniquement=:Stage_uniquement, Demie_tarif=:Demie_tarif, Licence_gratuite=:Licence_gratuite, Participation_équipe_sénior=:equipeSenior, Autorisation_photo_vidéo=:photoVideo WHERE Numéro =:num;");
+            Stage_uniquement=:Stage_uniquement,BABY_PING=:babyPing, Demie_tarif=:Demie_tarif, Licence_gratuite=:Licence_gratuite, Participation_équipe_sénior=:equipeSenior, Autorisation_photo_vidéo=:photoVideo WHERE Numéro =:num;");
             $res=$req->execute(array('num'=> $_POST['Numéro'],'fam'=> $_POST['Famille'],'nom'=> $_POST['Nom_licencié'],'prenom'=> $_POST['Prénom_licencié'],
             'sexe'=> $_POST['Sexe'],'dateNaiss'=> $_POST['Date_Naissance'],'tel_mobile'=> $_POST['Tel_mobile'],'tel_domicile'=> $_POST['Tel_domicile'],
             'tel_travail'=> $_POST['Tel_travail'],'email_perso'=> $_POST['Email_perso'],'email_travail'=> $_POST['Email_travail'],'cat1'=> $cat1,
             'type_licence'=> $_POST['Type_licence'],'Inscription'=>$inscri,'Date_inscription'=>$_POST['Date_inscription'],'competIndiv'=>$competIndiv,
             'SJR'=>$SJR,'certificat'=>$certificat,'Membre_bureau'=>$bureau,'1ere_licence'=>$unLic,'Autre_club'=>$autreClub,'Essai'=>$essai,
-            'Stage_uniquement'=>$stage,'Demie_tarif'=>$demi,'Licence_gratuite'=>$licGratuite,'equipeSenior'=>$equipeSenior,'photoVideo'=>$photoVideo));
+            'Stage_uniquement'=>$stage,'Demie_tarif'=>$demi,'Licence_gratuite'=>$licGratuite,'equipeSenior'=>$equipeSenior,'babyPing' => $babyPing ,'photoVideo'=>$photoVideo));
             /*si la checkBox inscription est cochée et qu'il y a une date d'inscription, la série de requête se lance*/
             $famille =  $_POST['Famille'];
             $prenom = $_POST['Prénom_licencié'];
