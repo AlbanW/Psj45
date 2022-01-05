@@ -343,8 +343,9 @@ foreach ($lesLicenciés as $unLicencié)
                     <input type="checkbox" name="Stage_uniquement" id="Stage_uniquement" class="formLicTailleBox" checked="checked" />
                     <span class="checkmark"></span>
                 </label>
+                
                 <?php
-    }
+    } 
     else
     { ?>
                 <label class="checkbox_label" style="bottom: 0px;">
@@ -393,9 +394,11 @@ foreach ($lesLicenciés as $unLicencié)
                 </label>
                 <?php
     } ?>
-                
+               
+               
+
                 <label for="Autorisation_photo_vidéo">Autorisation photo vidéo</label>
-                <?php if ($unLicencié['Autorisation_photo_vidéo'] == 1 || $unLicencié['Autorisation_photo_vidéo'] == "on")
+    <?php if ($unLicencié['Autorisation_photo_vidéo'] == 1 || $unLicencié['Autorisation_photo_vidéo'] == "on")
     { ?>
                 <label class="checkbox_label" style="bottom: 0px;">
                     <input type="checkbox" name="Autorisation_photo_vidéo" id="Autorisation_photo_vidéo" class="formLicTailleBox" checked="checked" />
@@ -411,6 +414,27 @@ foreach ($lesLicenciés as $unLicencié)
                 </label>
                 <?php
     } ?>
+
+    <!-- Ajout de la formule baby ping -->
+
+    <label for="baby_ping">Baby Ping</label>
+    <?php if ($unLicencié['BABY_PING'] == 1 || $unLicencié['BABY_PING'] == "on")
+    { ?>
+                <label class="checkbox_label" style="bottom: 0px;">
+                    <input type="checkbox" name="BABY_PING" id="baby_ping" class="formLicTailleBox" checked="checked" />
+                    <span class="checkmark"></span>
+                </label>
+                <?php
+    }
+    else
+    { ?>
+                <label class="checkbox_label" style="bottom: 0px;">
+                    <input type="checkbox" name="BABY_PING" id="baby_ping" class="formLicTailleBox"/>
+                    <span class="checkmark"></span>
+                </label>
+                <?php
+    } ?>
+
             </div>
             </div>
             <hr>

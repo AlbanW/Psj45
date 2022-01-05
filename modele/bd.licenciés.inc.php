@@ -1,7 +1,6 @@
 <?php
 include_once 'bd.inc.php';
 date_default_timezone_set('Europe/Paris');
-$now = date('Y-m-d\TH:i:s.uP', time());
 
     /*fonction qui SELECTionne les licenciés ordonnés par $value dans formulaire liste licencié*/
 	function getLicenciés($value,$S)
@@ -249,6 +248,8 @@ $now = date('Y-m-d\TH:i:s.uP', time());
 	/*fonction qui modifie un licencié dans formulaire licencié*/
 	function modifierLicencie()
     {
+        $now = date('Y-m-d\TH:i:s.uP', time());
+
         try{
             $monPdo = connexionPDO();
             if($_REQUEST['Catégorie_1']=="auto"){
