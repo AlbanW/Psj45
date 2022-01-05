@@ -300,7 +300,7 @@ date_default_timezone_set('Europe/Paris');
                 $res = $monPdo->query($req);
                 $exist = $res->fetch();
                 if($exist!=""){
-                    $req= "DELETE FROM opérations_compte_famille WHERE NuméroLicencié=$numéro AND Libellé_libre_opération!='Licence $famille $prenom' AND Crédit=0";
+                    $req= "DELETE FROM opérations_compte_famille WHERE NuméroLicencié=$numéro";
                     $res = $monPdo->query($req);
                 }
 
@@ -468,6 +468,23 @@ date_default_timezone_set('Europe/Paris');
                     $req=("INSERT INTO opérations_compte_famille (NuméroLicencié,Famille,Prénom,Code_opération,Libellé_libre_opération,Date_opération,Débit)
                     values($numéro,UPPER('$famille'),'$prenom','$code[Code]','Licence $famille $prenom hors St Jean',now(),$major[Majoration_externe])");
                     $res = $monPdo->exec($req);
+                }
+                if($babyPing != null && $babyPing == 1)
+                {
+                    $req="SELECT Tarif FROM tarif WHERE Code='BABY_PING'";
+                    $res = $monPdo->query($req);
+                    $tarifBabyPing = $res->fetch();
+
+                    $req= "SELECT Nom_service FROM tarif WHERE Code = 'BABY_PING'";
+                    $res = $monPdo->query($req);
+                    $NomServBP = $res->fetch();
+                
+
+                    $numéro = getLicenciésNum($prenom,$famille);
+                    $req=("INSERT INTO opérations_compte_famille (NuméroLicencié,Famille,Prénom,Code_opération,Libellé_libre_opération,Date_opération,Débit)
+                    values($numéro,UPPER('$famille'),'$prenom','$NomServBP[Nom_service]','$NomServBP[Nom_service] $famille $prenom',now(),'$tarifBabyPing[Tarif]')");
+                    $res = $monPdo->exec($req);
+
                 }
             
                 /* SELECTionne le nombre de licencié pour une famille qui sont incrit et ont une date d'insciption et stocke le résultat dans une variable $nbrLic*/
