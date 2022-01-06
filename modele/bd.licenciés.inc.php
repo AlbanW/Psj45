@@ -487,6 +487,7 @@ date_default_timezone_set('Europe/Paris');
 
                 }
             
+                // test mec
                 /* SELECTionne le nombre de licencié pour une famille qui sont incrit et ont une date d'insciption et stocke le résultat dans une variable $nbrLic*/
                 $req="SELECT count(Prénom_licencié) FROM licencié WHERE Famille='".$famille."' and Inscription=1 and Date_inscription!=''";
                 $res = $monPdo->query($req);
