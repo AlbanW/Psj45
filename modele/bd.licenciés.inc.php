@@ -387,6 +387,18 @@ date_default_timezone_set('Europe/Paris');
                     $res = $monPdo->query($req);
                     $major = $res->fetch();
                 }
+
+                if($babyPing==1){
+                    $req="SELECT Tarif FROM tarif WHERE Code like 'BABY_PING'";
+                    $res = $monPdo->query($req);
+                    $tarif = $res->fetch();
+                    $req= "SELECT Code FROM tarif WHERE Code like 'BABY_PING'";
+                    $res = $monPdo->query($req);
+                    $code = $res->fetch();
+                    $req= "SELECT Majoration_externe FROM tarif WHERE Code like 'BABY_PING'";
+                    $res = $monPdo->query($req);
+                    $major = $res->fetch();
+                }
             
                 /* si la checkBox 1ere licence est cochée, ça SELECTionne le tarif, le code et la majoration externe de la table tarif quand le code s'appel 'LIC-L1'
                 et stocke les résultats dans des variables*/
@@ -469,23 +481,23 @@ date_default_timezone_set('Europe/Paris');
                     values($numéro,UPPER('$famille'),'$prenom','$code[Code]','Licence $famille $prenom hors St Jean',now(),$major[Majoration_externe])");
                     $res = $monPdo->exec($req);
                 }
-                if($babyPing != null && $babyPing == 1)
-                {
-                    $req="SELECT Tarif FROM tarif WHERE Code='BABY_PING'";
-                    $res = $monPdo->query($req);
-                    $tarifBabyPing = $res->fetch();
+                // if($babyPing != null && $babyPing == 1)
+                // {
+                //     $req="SELECT Tarif FROM tarif WHERE Code='BABY_PING'";
+                //     $res = $monPdo->query($req);
+                //     $tarifBabyPing = $res->fetch();
 
-                    $req= "SELECT Nom_service FROM tarif WHERE Code = 'BABY_PING'";
-                    $res = $monPdo->query($req);
-                    $NomServBP = $res->fetch();
+                //     $req= "SELECT Nom_service FROM tarif WHERE Code = 'BABY_PING'";
+                //     $res = $monPdo->query($req);
+                //     $NomServBP = $res->fetch();
                 
 
-                    $numéro = getLicenciésNum($prenom,$famille);
-                    $req=("INSERT INTO opérations_compte_famille (NuméroLicencié,Famille,Prénom,Code_opération,Libellé_libre_opération,Date_opération,Débit)
-                    values($numéro,UPPER('$famille'),'$prenom','$NomServBP[Nom_service]','$NomServBP[Nom_service] $famille $prenom',now(),'$tarifBabyPing[Tarif]')");
-                    $res = $monPdo->exec($req);
+                //     $numéro = getLicenciésNum($prenom,$famille);
+                //     $req=("INSERT INTO opérations_compte_famille (NuméroLicencié,Famille,Prénom,Code_opération,Libellé_libre_opération,Date_opération,Débit)
+                //     values($numéro,UPPER('$famille'),'$prenom','$NomServBP[Nom_service]','$NomServBP[Nom_service] $famille $prenom',now(),'$tarifBabyPing[Tarif]')");
+                //     $res = $monPdo->exec($req);
 
-                }
+                // }
             
                 // test mec
                 /* SELECTionne le nombre de licencié pour une famille qui sont incrit et ont une date d'insciption et stocke le résultat dans une variable $nbrLic*/

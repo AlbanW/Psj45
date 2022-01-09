@@ -174,7 +174,7 @@ function addParticipant(){
             $req = $monPdo->prepare('INSERT INTO participants_stage (Nom, Prenom,Tel_mobile,Email,Date_Naissance) values (?,?,?,?,?);');
             $res=$req->execute(array($Nom,$Prénom,$Tel_mobile,$Email,$Date_Naissance));
         } 
-        $id = $req->lastInsertId();   
+        $id = $req->lastInsertId;   
     }
     else{
         if($Valider=='Licencié'){
