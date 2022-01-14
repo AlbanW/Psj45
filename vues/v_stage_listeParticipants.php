@@ -32,6 +32,7 @@
                 $Nom = $unParticipant['Nom_licencié'];
                 $Prenom = $unParticipant['Prénom_licencié'];
                 $Libellé = $unParticipant['Libellé'];
+                $num = $unParticipant['Numéro'];
         ?>
         <span class="Tableau">
             <label class="checkbox_label">
@@ -39,8 +40,8 @@
                 <span class="checkmark"></span>
             </label>
             
-            <input type="hidden" name="Numéro[]" id="Numéro" value="<?php echo $uneFamille['Numéro'];?>">
-            <input type="text" required name="Nom_participant[]" id="Nom_participant" class="formFamTailleNom" style="width:175px;" value="<?php echo $Nom;?>"/>
+            <input type="hidden" name="Numéro[]" id="Numéro" value="<?php echo $num;?>">
+            <a href="index.php?p=licencie&test=test&uc=gestionStages&action=voirParticipant&numero=<?php echo $num; ?>"><input readonly type="text" name="Numéro[]" id="Famille" class="formLicTaille10"  style="cursor: pointer;" value="<?php echo $Nom; ?>" /></a>
             <input type="text" required name="Prenom_participant[]" id="Prenom_participant" class="formFamTailleNom" style="width:175px;" value="<?php echo $Prenom?>"/>
             <input type="text" required name="ID_Stage[]" id="ID_stage" class="formFamTailleNom" style="width:175px;" value="<?php echo $Libellé ?>"/>
         </span>

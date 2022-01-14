@@ -220,7 +220,12 @@ function getParticipantsInStage(){
 function getParticipantsByNum($num){
     try{
         $monPdo = connexionPDO();
-        $req = 'SELECT * FROM participants_stage WHERE Numéro='.$num.';';
+        $req = '
+        SELECT * FROM participation_stage
+            INNER JOIN licencié ON licencié.Numéro = participation_stage.Numéro_participant
+            INNER JOIN stages ON stages.ID = participation_stage.Numéro_stage
+            WHERE licencié.Numéro = '.$num.';';
+
         $res = $monPdo->query($req);
         $lesLignes = $res->fetch();
         return $lesLignes;

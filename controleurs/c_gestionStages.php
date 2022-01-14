@@ -15,6 +15,17 @@ switch($action)
         include("vues/v_stage_creationStage.php");
 		break;
 	}
+    case 'voirParticipant':
+        if(isset($_GET['numero']))
+        {
+            $participant = getParticipantsByNum($_GET['numero']);
+            include("vues/v_stage_detailParticipant.php");
+            
+        } else {
+        include("vues/v_erreur.php");
+        break;
+        }
+    break;
     case 'créerStage':
     {
         createStage($_POST['Libelle'],$_POST['tarif'],$_COOKIE["selectedDays"]);
