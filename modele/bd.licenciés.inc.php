@@ -37,7 +37,7 @@ date_default_timezone_set('Europe/Paris');
 		
 	/*fonction qui ajoute un licencié et les opérations qui découlent de l'inscription du licencié dans formulaire création licencié*/
 	function creerLicencie($famille,$nom,$prenom,$sexe,$dateNaiss,$telMob,$telDom,$telTrav,$emailPerso,$emailTrav,$cat1,$typeLic,$inscri,$DateInscri,
-	$natio,$competIndiv,$SJR,$certificat,$bureau,$unLic,$autreClub,$essai,$handicap,$stage,$demi,$licGratuite,$equipeSenior,$photoVideo)
+	$natio,$competIndiv,$SJR,$certificat,$bureau,$unLic,$autreClub,$essai,$handicap,$stage,$demi,$licGratuite,$equipeSenior,$photoVideo, $partenaire, $divers, $babyPing, $women)
     {
         try 
         {
@@ -56,10 +56,10 @@ date_default_timezone_set('Europe/Paris');
             $req = $monPdo->prepare("insert into licencié (Famille,Nom_licencié,Prénom_licencié,Sexe,Date_Naissance,Tel_mobile,Tel_domicile,Tel_travail,Email_perso,
             Email_travail,Catégorie_1,Type_licence,Inscription,Date_inscription,Nationalité,Participation_compétition_individuelle,Saint_Jean_de_la_Ruelle,
             Certificat_médical,Membre_bureau,1ere_licence,Autre_club,Essai,Handicap,Stage_uniquement,Demie_tarif,Licence_gratuite,Participation_équipe_sénior,
-            Autorisation_photo_vidéo)
-            values (UPPER(?),UPPER(?),UPPER(?),?,?,?,?,?,UPPER(?),UPPER(?),?,?,?,?,UPPER(?),?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            Autorisation_photo_vidéo, PARTENAIRE, DIVERS, BABY_PING, WOMEN)
+            values (UPPER(?),UPPER(?),UPPER(?),?,?,?,?,?,UPPER(?),UPPER(?),?,?,?,?,UPPER(?),?,?,?,?,?,?,?,?,?,?,?,?,?, ?, ?, ?, ?)");
             $res=$req->execute(array($famille,$nom,$prenom,$sexe,$dateNaiss,$telMob,$telDom,$telTrav,$emailPerso,$emailTrav,$cat1,$typeLic,$inscri,$DateInscri,
-            $natio,$competIndiv,$SJR,$certificat,$bureau,$unLic,$autreClub,$essai,$handicap,$stage,$demi,$licGratuite,$equipeSenior,$photoVideo));
+            $natio,$competIndiv,$SJR,$certificat,$bureau,$unLic,$autreClub,$essai,$handicap,$stage,$demi,$licGratuite,$equipeSenior,$photoVideo, $partenaire, $divers, $babyPing, $women));
             
 
 
@@ -89,6 +89,31 @@ date_default_timezone_set('Europe/Paris');
                     $req= "SELECT Majoration_externe FROM tarif WHERE Code like 'LIC-TRADI'";
                     $res = $monPdo->query($req);
                     $major = $res->fetch();
+
+                    if($women)
+                    {
+                        $num = getLicenciésNum($prenom,$famille);
+                
+                        /*SELECTionne le tarif de la licence 'TRADI' en fonction de la catégorie du licencié et stocke le résultat dans une variable $tarif*/
+                        $req= "SELECT Tarif FROM licencié INNER JOIN paramètre_catégorie ON licencié.Catégorie_1 = paramètre_catégorie.Catégorie, 
+                        (tarif INNER JOIN paramètre_catégorie AS paramètre_catégorie1 ON tarif.Critère_mini = paramètre_catégorie1.Catégorie) 
+                        INNER JOIN paramètre_catégorie AS paramètre_catégorie2 ON tarif.Critère_maxi = paramètre_catégorie2.Catégorie
+                        WHERE (((tarif.Code)='WOMEN-TRADI') AND licencié.Numéro='".$num."' AND ((paramètre_catégorie.Numéro_catégorie)>=paramètre_catégorie1.Numéro_catégorie 
+                        AND (paramètre_catégorie.Numéro_catégorie)<=paramètre_catégorie2.Numéro_catégorie))";
+                        $res = $monPdo->query($req);
+                        $tarif = $res->fetch();
+                        
+                        /*SELECTionne le code de la table tarif quand le code s'appel 'LIC-TRADI' et stocke le résultat dans une variable $code*/
+                        $req= "SELECT Code FROM tarif WHERE Code like 'WOMEN-TRADI'";
+                        $res = $monPdo->query($req);
+                        $code = $res->fetch();
+                        
+                        /*SELECTionne le tarif de la majoration externe de la table tarif quand le code s'appel 'LIC-TRADI' et stocke le résultat dans une variable $major*/
+                        $req= "SELECT Majoration_externe FROM tarif WHERE Code like 'WOMEN-TRADI'";
+                        $res = $monPdo->query($req);
+                        $major = $res->fetch();
+    
+                    }
                 }
                 else{
                     /*si la licence est de type 'PROMO'*/
@@ -114,6 +139,31 @@ date_default_timezone_set('Europe/Paris');
                     $req= "SELECT Majoration_externe FROM tarif WHERE Code like 'LIC-PROMO'";
                     $res = $monPdo->query($req);
                     $major = $res->fetch();
+
+                    if($women)
+                    {
+                        $num = getLicenciésNum($prenom,$famille);
+                
+                        /*SELECTionne le tarif de la licence 'PROMO' en fonction de la catégorie du licencié et stocke le résultat dans une variable $tarif*/
+                        $req= "SELECT Tarif FROM licencié INNER JOIN paramètre_catégorie ON licencié.Catégorie_1 = paramètre_catégorie.Catégorie, 
+                        (tarif INNER JOIN paramètre_catégorie AS paramètre_catégorie1 ON tarif.Critère_mini = paramètre_catégorie1.Catégorie) 
+                        INNER JOIN paramètre_catégorie AS paramètre_catégorie2 ON tarif.Critère_maxi = paramètre_catégorie2.Catégorie
+                        WHERE (((tarif.Code)='WOMEN-PROMO') AND licencié.Numéro='".$num."' AND ((paramètre_catégorie.Numéro_catégorie)>=paramètre_catégorie1.Numéro_catégorie 
+                        AND (paramètre_catégorie.Numéro_catégorie)<=paramètre_catégorie2.Numéro_catégorie))";
+                        $res = $monPdo->query($req);
+                        $tarif = $res->fetch();
+                        
+                        /*SELECTionne le code de la table tarif quand le code s'appel 'LIC-TRADI' et stocke le résultat dans une variable $code*/
+                        $req= "SELECT Code FROM tarif WHERE Code like 'WOMEN-PROMO'";
+                        $res = $monPdo->query($req);
+                        $code = $res->fetch();
+                        
+                        /*SELECTionne le tarif de la majoration externe de la table tarif quand le code s'appel 'LIC-TRADI' et stocke le résultat dans une variable $major*/
+                        $req= "SELECT Majoration_externe FROM tarif WHERE Code like 'WOMEN-PROMO'";
+                        $res = $monPdo->query($req);
+                        $major = $res->fetch();
+    
+                    }
                     }
                 }
             
@@ -130,6 +180,45 @@ date_default_timezone_set('Europe/Paris');
                     $res = $monPdo->query($req);
                     $major = $res->fetch();
                 }
+                if($babyPing==1){
+                    $req="SELECT Tarif FROM tarif WHERE Code like 'BABY_PING'";
+                    $res = $monPdo->query($req);
+                    $tarif = $res->fetch();
+                    $req= "SELECT Code FROM tarif WHERE Code like 'BABY_PING'";
+                    $res = $monPdo->query($req);
+                    $code = $res->fetch();
+                    $req= "SELECT Majoration_externe FROM tarif WHERE Code like 'BABY_PING'";
+                    $res = $monPdo->query($req);
+                    $major = $res->fetch();
+                }
+            
+                
+                if($divers==1){
+                    $req="SELECT Tarif FROM tarif WHERE Code like 'DIVERS'";
+                    $res = $monPdo->query($req);
+                    $tarif = $res->fetch();
+                    $req= "SELECT Code FROM tarif WHERE Code like 'DIVERS'";
+                    $res = $monPdo->query($req);
+                    $code = $res->fetch();
+                    $req= "SELECT Majoration_externe FROM tarif WHERE Code like 'DIVERS'";
+                    $res = $monPdo->query($req);
+                    $major = $res->fetch();
+                }
+            
+
+                
+                if($partenaire==1){
+                    $req="SELECT Tarif FROM tarif WHERE Code like 'PARTENAIRE'";
+                    $res = $monPdo->query($req);
+                    $tarif = $res->fetch();
+                    $req= "SELECT Code FROM tarif WHERE Code like 'PARTENAIRE'";
+                    $res = $monPdo->query($req);
+                    $code = $res->fetch();
+                    $req= "SELECT Majoration_externe FROM tarif WHERE Code like 'PARTENAIRE'";
+                    $res = $monPdo->query($req);
+                    $major = $res->fetch();
+                }
+
             
                 /* si la checkBox 1ere licence est cochée, ça SELECTionne le tarif, le code et la majoration externe de la table tarif quand le code s'appel 'LIC-L1'
                 et stocke les résultats dans des variables*/
@@ -276,18 +365,21 @@ date_default_timezone_set('Europe/Paris');
             if (isset($_POST['Participation_équipe_sénior'])){$equipeSenior=1;}else{$equipeSenior=0;}
             if (isset($_POST['Autorisation_photo_vidéo'])){$photoVideo=1;}else{$photoVideo=0;}
             if (isset($_POST['BABY_PING'])){$babyPing=1;}else{$babyPing=0;}
+            if (isset($_POST['divers'])){$divers=1;}else{$divers=0;}
+            if (isset($_POST['partenaire'])){$partenaire=1;}else{$partenaire=0;}
+            if (isset($_POST['women'])){$women=1;}else{$women=0;}
 
             $req = $monPdo->prepare("UPDATE licencié SET Famille=:fam, Nom_licencié=:nom, Prénom_licencié=:prenom, Sexe=:sexe, Date_Naissance=:dateNaiss,
             Tel_mobile=:tel_mobile, Tel_domicile=:tel_domicile, Tel_travail=:tel_travail, Email_perso=:email_perso, Email_travail=:email_travail, Catégorie_1=:cat1,
             Type_licence=:type_licence,Inscription=:Inscription, Date_inscription=:Date_inscription, Participation_compétition_individuelle=:competIndiv,
             Saint_Jean_de_la_Ruelle=:SJR, Certificat_médical=:certificat, Membre_bureau=:Membre_bureau, 1ere_licence=:1ere_licence, Autre_club=:Autre_club, Essai=:Essai,
-            Stage_uniquement=:Stage_uniquement,BABY_PING=:babyPing, Demie_tarif=:Demie_tarif, Licence_gratuite=:Licence_gratuite, Participation_équipe_sénior=:equipeSenior, Autorisation_photo_vidéo=:photoVideo WHERE Numéro =:num;");
+            Stage_uniquement=:Stage_uniquement, WOMEN=:women, PARTENAIRE=:partenaire,DIVERS=:divers,  BABY_PING=:babyPing, Demie_tarif=:Demie_tarif, Licence_gratuite=:Licence_gratuite, Participation_équipe_sénior=:equipeSenior, Autorisation_photo_vidéo=:photoVideo WHERE Numéro =:num;");
             $res=$req->execute(array('num'=> $_POST['Numéro'],'fam'=> $_POST['Famille'],'nom'=> $_POST['Nom_licencié'],'prenom'=> $_POST['Prénom_licencié'],
             'sexe'=> $_POST['Sexe'],'dateNaiss'=> $_POST['Date_Naissance'],'tel_mobile'=> $_POST['Tel_mobile'],'tel_domicile'=> $_POST['Tel_domicile'],
             'tel_travail'=> $_POST['Tel_travail'],'email_perso'=> $_POST['Email_perso'],'email_travail'=> $_POST['Email_travail'],'cat1'=> $cat1,
             'type_licence'=> $_POST['Type_licence'],'Inscription'=>$inscri,'Date_inscription'=>$_POST['Date_inscription'],'competIndiv'=>$competIndiv,
             'SJR'=>$SJR,'certificat'=>$certificat,'Membre_bureau'=>$bureau,'1ere_licence'=>$unLic,'Autre_club'=>$autreClub,'Essai'=>$essai,
-            'Stage_uniquement'=>$stage,'Demie_tarif'=>$demi,'Licence_gratuite'=>$licGratuite,'equipeSenior'=>$equipeSenior,'babyPing' => $babyPing ,'photoVideo'=>$photoVideo));
+            'Stage_uniquement'=>$stage,'Demie_tarif'=>$demi,'Licence_gratuite'=>$licGratuite,'equipeSenior'=>$equipeSenior,'babyPing' => $babyPing ,'women' => $women,'partenaire' => $partenaire, 'divers' => $divers,'photoVideo'=>$photoVideo));
             /*si la checkBox inscription est cochée et qu'il y a une date d'inscription, la série de requête se lance*/
             $famille =  $_POST['Famille'];
             $prenom = $_POST['Prénom_licencié'];
@@ -305,7 +397,7 @@ date_default_timezone_set('Europe/Paris');
                 }
 
                 /*Récupére le type de licence actuelle*/
-                $req= "SELECT Code_opération FROM opérations_compte_famille WHERE NuméroLicencié=$numéro AND (Code_opération LIKE '%TRADI%' OR Code_opération LIKE '%PROMO%') ORDER BY Numéro DESC LIMIT 1";
+                $req= "SELECT Code_opération FROM opérations_compte_famille WHERE NuméroLicencié=$numéro AND (Code_opération LIKE '%TRADI%' OR Code_opération LIKE '%WOMEN%' OR Code_opération LIKE '%PROMO%') ORDER BY Numéro DESC LIMIT 1";
                 $res = $monPdo->query($req);
                 $LastTypeLic = $res->fetch();
                 $LastTypeLic = $LastTypeLic['Code_opération'];
@@ -342,6 +434,33 @@ date_default_timezone_set('Europe/Paris');
                     elseif(str_contains($LastTypeLic, 'PROMO')){
                         $transition=true;
                     }
+
+                    if($women)
+                    {
+                            $num = getLicenciésNum($prenom,$famille);
+                            $req="SELECT Tarif FROM licencié INNER JOIN paramètre_catégorie ON licencié.Catégorie_1 = paramètre_catégorie.Catégorie, 
+                            (tarif INNER JOIN paramètre_catégorie AS paramètre_catégorie1 ON tarif.Critère_mini = paramètre_catégorie1.Catégorie) 
+                            INNER JOIN paramètre_catégorie AS paramètre_catégorie2 ON tarif.Critère_maxi = paramètre_catégorie2.Catégorie
+                            WHERE (((tarif.Code)='WOMEN-TRADI') AND licencié.Numéro='".$num."' AND ((paramètre_catégorie.Numéro_catégorie)>=paramètre_catégorie1.Numéro_catégorie 
+                            AND (paramètre_catégorie.Numéro_catégorie)<=paramètre_catégorie2.Numéro_catégorie))";
+                            $res = $monPdo->query($req);
+                            $tarif = $res->fetch();
+                            
+                            $req= "SELECT Code FROM tarif WHERE Code like 'WOMEN-TRADI'";
+                            $res = $monPdo->query($req);
+                            $code = $res->fetch();
+                            
+                            $req= "SELECT Majoration_externe FROM tarif WHERE Code like 'WOMEN-TRADI'";
+                            $res = $monPdo->query($req);
+                            $major = $res->fetch();
+    
+                            if(str_contains($LastTypeLic, 'TARIF')){
+                                $transition=true;
+                            }
+                            elseif(str_contains($LastTypeLic, 'PROMO')){
+                                $tarif="";
+                            }
+                    }
                 }
                 elseif($typeLic=='PROMO'){
                     /*SELECTionne le dernier licencié créé grace à son numéro ordonné par ordre décroissant et stocke le résultat dans une variable $num*/
@@ -366,11 +485,38 @@ date_default_timezone_set('Europe/Paris');
                     $res = $monPdo->query($req);
                     $major = $res->fetch();
 
-                    if(str_contains($LastTypeLic, 'TRADI')){
+                    if(str_contains($LastTypeLic, 'TARIF')){
                         $transition=true;
                     }
                     elseif(str_contains($LastTypeLic, 'PROMO')){
                         $tarif="";
+                    }
+
+                    if($women)
+                    {
+                        $num = getLicenciésNum($prenom,$famille);
+                        $req="SELECT Tarif FROM licencié INNER JOIN paramètre_catégorie ON licencié.Catégorie_1 = paramètre_catégorie.Catégorie, 
+                        (tarif INNER JOIN paramètre_catégorie AS paramètre_catégorie1 ON tarif.Critère_mini = paramètre_catégorie1.Catégorie) 
+                        INNER JOIN paramètre_catégorie AS paramètre_catégorie2 ON tarif.Critère_maxi = paramètre_catégorie2.Catégorie
+                        WHERE (((tarif.Code)='WOMEN-PROMO') AND licencié.Numéro='".$num."' AND ((paramètre_catégorie.Numéro_catégorie)>=paramètre_catégorie1.Numéro_catégorie 
+                        AND (paramètre_catégorie.Numéro_catégorie)<=paramètre_catégorie2.Numéro_catégorie))";
+                        $res = $monPdo->query($req);
+                        $tarif = $res->fetch();
+                        
+                        $req= "SELECT Code FROM tarif WHERE Code like 'WOMEN-PROMO'";
+                        $res = $monPdo->query($req);
+                        $code = $res->fetch();
+                        
+                        $req= "SELECT Majoration_externe FROM tarif WHERE Code like 'WOMEN-PROMO'";
+                        $res = $monPdo->query($req);
+                        $major = $res->fetch();
+
+                        if(str_contains($LastTypeLic, 'TARIF')){
+                            $transition=true;
+                        }
+                        elseif(str_contains($LastTypeLic, 'PROMO')){
+                            $tarif="";
+                        }
                     }
                 }
             
@@ -396,6 +542,33 @@ date_default_timezone_set('Europe/Paris');
                     $res = $monPdo->query($req);
                     $code = $res->fetch();
                     $req= "SELECT Majoration_externe FROM tarif WHERE Code like 'BABY_PING'";
+                    $res = $monPdo->query($req);
+                    $major = $res->fetch();
+                }
+            
+                
+                if($divers==1){
+                    $req="SELECT Tarif FROM tarif WHERE Code like 'DIVERS'";
+                    $res = $monPdo->query($req);
+                    $tarif = $res->fetch();
+                    $req= "SELECT Code FROM tarif WHERE Code like 'DIVERS'";
+                    $res = $monPdo->query($req);
+                    $code = $res->fetch();
+                    $req= "SELECT Majoration_externe FROM tarif WHERE Code like 'DIVERS'";
+                    $res = $monPdo->query($req);
+                    $major = $res->fetch();
+                }
+            
+
+                
+                if($partenaire==1){
+                    $req="SELECT Tarif FROM tarif WHERE Code like 'PARTENAIRE'";
+                    $res = $monPdo->query($req);
+                    $tarif = $res->fetch();
+                    $req= "SELECT Code FROM tarif WHERE Code like 'PARTENAIRE'";
+                    $res = $monPdo->query($req);
+                    $code = $res->fetch();
+                    $req= "SELECT Majoration_externe FROM tarif WHERE Code like 'PARTENAIRE'";
                     $res = $monPdo->query($req);
                     $major = $res->fetch();
                 }
@@ -499,7 +672,6 @@ date_default_timezone_set('Europe/Paris');
 
                 // }
             
-                // test mec
                 /* SELECTionne le nombre de licencié pour une famille qui sont incrit et ont une date d'insciption et stocke le résultat dans une variable $nbrLic*/
                 $req="SELECT count(Prénom_licencié) FROM licencié WHERE Famille='".$famille."' and Inscription=1 and Date_inscription!=''";
                 $res = $monPdo->query($req);

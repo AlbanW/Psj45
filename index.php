@@ -21,6 +21,8 @@ require_once("modele/bd.infosUtilisateurs.inc.php");
 require_once("modele/bd.suppression.inc.php");
 require_once("modele/bd.stage.inc.php");
 
+error_reporting(0);
+
 if( isset($_COOKIE['username']) && $_COOKIE['username']!=''){
     if(!isset($_SESSION['username'])){
         $_SESSION['username']=$_COOKIE['username'];

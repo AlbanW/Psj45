@@ -42,6 +42,9 @@
             <li class="categorie_checkbox"> Compet équipe </li>
             <li class="categorie_checkbox"> Photo-Vidéo </li>
             <li class="categorie_checkbox"> Baby Ping </li>
+            <li class="categorie_checkbox"> Féminine </li>
+            <li class="categorie_checkbox"> Divers </li>
+            <li class="categorie_checkbox"> Partenaire </li>
 
             <li class="categorie_checkbox"> Loisir </li>
         </ul>
@@ -373,6 +376,42 @@
             </label>
         <?php } ?>
         
+        <?php if ($unLicencié['WOMEN'] == 1 || $unLicencié['WOMEN'] == "on") { ?>
+            <label class="checkbox_label" style="margin-left:37.5px ; margin-right:37.5px;">
+                <input disabled="disabled" type="checkbox" autocomplete="off" name="women[]" id="babyPing" checked="checked" />
+                <span class="checkmark"></span>
+            </label>
+        <?php } else { ?>
+            <label class="checkbox_label" style="margin-left:37.5px ; margin-right:37.5px;">
+                <input disabled="disabled" type="checkbox" autocomplete="off" name="women[]" id="babyPing" />
+                <span class="checkmark"></span>
+            </label>
+        <?php } ?>
+
+        <?php if ($unLicencié['DIVERS'] == 1 || $unLicencié['DIVERS'] == "on") { ?>
+            <label class="checkbox_label" style="margin-left:37.5px ; margin-right:37.5px;">
+                <input disabled="disabled" type="checkbox" autocomplete="off" name="divers[]" id="divers" checked="checked" />
+                <span class="checkmark"></span>
+            </label>
+        <?php } else { ?>
+            <label class="checkbox_label" style="margin-left:37.5px ; margin-right:37.5px;">
+                <input disabled="disabled" type="checkbox" autocomplete="off" name="divers[]" id="divers" />
+                <span class="checkmark"></span>
+            </label>
+        <?php } ?>
+
+        <?php if ($unLicencié['PARTENAIRE'] == 1 || $unLicencié['PARTENAIRE'] == "on") { ?>
+            <label class="checkbox_label" style="margin-left:37.5px ; margin-right:37.5px;">
+                <input disabled="disabled" type="checkbox" autocomplete="off" name="partenaire[]" id="partenaire" checked="checked" />
+                <span class="checkmark"></span>
+            </label>
+        <?php } else { ?>
+            <label class="checkbox_label" style="margin-left:37.5px ; margin-right:37.5px;">
+                <input disabled="disabled" type="checkbox" autocomplete="off" name="partenaire[]" id="partenaire" />
+                <span class="checkmark"></span>
+            </label>
+        <?php } ?>
+
         <?php if ($unLicencié['Loisir_hors_compétition'] == 1 || $unLicencié['Loisir_hors_compétition'] == "on") { ?>
             <label class="checkbox_label" style="margin-left:37.5px ; margin-right:37.5px;">
                 <input disabled="disabled" type="checkbox" autocomplete="off" name="Loisir_hors_compétition[]" id="Loisir_hors_compétition" checked="checked" />

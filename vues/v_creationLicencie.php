@@ -122,6 +122,15 @@
         <input type="checkbox" name="Certificat_médical" id="Certificat_médical"/>
         <span class="checkmark"></span>
         </label>
+
+
+        <label for="divers">Divers</label>
+        
+        <label class="checkbox_label" style="bottom: 0px;">
+                    <input type="checkbox" name="divers" id="divers" class="formLicTailleBox"/>
+                    <span class="checkmark"></span>
+                </label>
+
         </div>
         
         <div class="formColonne">
@@ -154,6 +163,12 @@
         <input type="checkbox" name="Stage_uniquement" id="Stage_uniquement"/>
         <span class="checkmark"></span>
         </label>
+
+        <label for="women">Féminine</label>
+        <label class="checkbox_label" style="top: 0px;">
+        <input type="checkbox" name="women" id="women"/>
+        <span class="checkmark"></span>
+        </label>
         </div>
         
         <div class="formColonne">
@@ -174,6 +189,22 @@
         <input type="checkbox" name="Autorisation_photo_vidéo" id="Autorisation_photo_vidéo"/>
         <span class="checkmark"></span>
         </label>
+
+        
+        <label for="baby_ping">Baby Ping</label>
+        <label class="checkbox_label" style="bottom: 0px;">
+            <input type="checkbox" name="BABY_PING" id="baby_ping" class="formLicTailleBox"/>
+            <span class="checkmark"></span>
+        </label>
+
+        
+        <label for="partenaire">Salarié d'entreprise partenaire</label>
+        <label class="checkbox_label" style="bottom: 0px;">
+                    <input type="checkbox" name="partenaire" id="partenaire" class="formLicTailleBox"/>
+                    <span class="checkmark"></span>
+        </label>
+
+
         </div>
         </div>
         <hr>

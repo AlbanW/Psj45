@@ -56,9 +56,13 @@ switch($action)
         if (isset($_POST['Licence_gratuite'])){$licGratuite=1;}else{$licGratuite=0;}
         if (isset($_POST['Participation_équipe_sénior'])){$equipeSenior=1;}else{$equipeSenior=0;}
         if (isset($_POST['Autorisation_photo_vidéo'])){$photoVideo=1;}else{$photoVideo=0;}
-
+        if (isset($_POST['BABY_PING'])){$babyPing=1;}else{$babyPing=0;}
+        if (isset($_POST['divers'])){$divers=1;}else{$divers=0;}
+        if (isset($_POST['partenaire'])){$partenaire=1;}else{$partenaire=0;}
+        if (isset($_POST['women'])){$women=1;}else{$women=0;}
+        
         $unLicencié = creerLicencie($famille,$nom,$prenom,$sexe,$dateNaiss,$telMob,$telDom,$telTrav,$emailPerso,$emailTrav,$cat1,$typeLic,$inscri,
-        $DateInscri,$natio,$competIndiv,$SJR,$certificat,$bureau,$unLic,$autreClub,$essai,$handicap,$stage,$demi,$licGratuite,$equipeSenior,$photoVideo);
+        $DateInscri,$natio,$competIndiv,$SJR,$certificat,$bureau,$unLic,$autreClub,$essai,$handicap,$stage,$demi,$licGratuite,$equipeSenior,$photoVideo, $partenaire, $divers, $babyPing, $women);
         ?>
         
         <script>

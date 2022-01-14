@@ -16,10 +16,10 @@ function createStage($lib,$Num_Tarif,$date){
 
         $InsertedID = $monPdo->lastInsertId();
 
-
+        $i = 0;
         $sql = 'UPDATE stages SET ';
         foreach ($dateArr as $d) {
-            $i ++;
+            $i++;
             $sql .= 'Jour'.$i.'=\''.$d.'\'';
             if($i < count($dateArr)){
                 $sql .=', '; 
@@ -165,31 +165,12 @@ function addParticipant(){
     extract($_POST);
     $monPdo = connexionPDO();
     
-    if(!participantExist($Nom,$Prénom,$Date_Naissance,$numLicencié)){
-        if($Valider=='Licencié'){
-            $req = $monPdo->prepare('INSERT INTO participants_stage (Numéro_licencie) values (?);');
-            $res=$req->execute(array($numLicencié));
-        }
-        elseif($Valider=='NonLicencié'){
-            $req = $monPdo->prepare('INSERT INTO participants_stage (Nom, Prenom,Tel_mobile,Email,Date_Naissance) values (?,?,?,?,?);');
-            $res=$req->execute(array($Nom,$Prénom,$Tel_mobile,$Email,$Date_Naissance));
-        } 
-        $id = $req->lastInsertId;   
-    }
-    else{
-        if($Valider=='Licencié'){
-            $participant = getParticipantByNumLicencié($numLicencié);
-        }
-        elseif($Valider=='NonLicencié'){
-            $participant = getParticipantByNomPrenomDate($Nom,$Prénom,$Date_Naissance);
-        } 
-        $id = $participant['Numéro'];
-    }
+    $id = $_POST['licencié'];
+    var_dump($id);
     if(!ifAlreadyAddInThisStage($id,$Stage)){
         $req = $monPdo->prepare('INSERT INTO participation_stage (Numéro_participant,Numéro_stage) values (?,?);');
-        $res=$req->execute(array($id,$Stage));
-    }
-    else{
+        $res=$req->execute([$id,$Stage]);
+    } else{
         echo'
         <div></div>
         <script>
@@ -206,7 +187,12 @@ function addParticipant(){
 function getParticipants(){
     try{
         $monPdo = connexionPDO();
-        $req = 'SELECT * FROM participants_stage;';
+        $req = '
+            SELECT * FROM participation_stage
+                INNER JOIN licencié ON licencié.Numéro = participation_stage.Numéro_participant
+                INNER JOIN stages ON stages.ID = participation_stage.Numéro_stage
+            ;
+        ';
         $res = $monPdo->query($req);
         $lesLignes = $res->fetchAll();
         return $lesLignes;

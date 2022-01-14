@@ -9,18 +9,16 @@
                     <?php
                     $lesLicenciés = getLicenciés('Nom_licencié','ASC');
                     ?>
-                    <input name="licencié" id="licencié" minlength="2" type="text" placeholder="Entrer le nom - prénom" list="licenciéList" require/>
-                    <input type="hidden" name="numLicencié" id="licencié-hidden">
-                    <datalist id="licenciéList">
-                        <?php
+                    <select name="licencié" id="licencié" require style="width: 100%;">
+                    <?php
                             foreach ($lesLicenciés as $unLicencié)
                             {
                                 $prenom = $unLicencié['Prénom_licencié'];
                                 $fam = $unLicencié['Nom_licencié'];
-                                echo '<option data-value="'.$unLicencié['Numéro'].'" >'.$fam.' - '.$prenom.'</option >';
+                                echo '<option value="'.$unLicencié['Numéro'].'" >'.$fam.' - '.$prenom.'</option >';
                             }
-                        ?>
-                    </datalist>
+                     ?>
+                    </select>
                 </div>
                 <div>
                     <label for="Stage">Stage</label>
@@ -78,74 +76,10 @@
                     </table>
                 </div>
             </main>
-            <hr>
-            <div id="non_licencie" style="display:flex;justify-content: space-evenly;align-items: center">
-                <label for="Nom">Nom
-                <input type="text"  name="Nom" id="Nom"/></input>
-                </label>
-                
-                <label for="Prénom">Prénom
-                <input type="text"  name="Prénom" id="Prénom"/></input>
-                </label>
-
-                <label for="Tel_mobile">Tel mobile
-                <input type="text"  name="Tel_mobile" id="Tel_mobile"/></input>
-                </label>
-                        
-                <label for="Email_perso">Email perso
-                <input  type="text"  name="Email_perso" id="Email_perso"/></input>
-                </label>
-
-                <label for="Date_Naissance">Date de naissance
-                <input required type="date" name="Date_Naissance" id="Date_Naissance" class="formCreaLicTailleCaseHaut"/></input>     
-                </label>
-            </div>
-            <div style="display: flex; justify-content: center; align-items: center; padding-top: 15em;">
-                <input class="btn" type="submit" id="Valider" name="Valider" value="NonLicencié" style="width:300px">
+           
+            <div style="display: flex; justify-content: center; align-items: center; margin-top: 25px;">
+                <input class="btn" type="submit" id="Valider" name="Valider" value="Valider" style="width:300px">
             </div>
         </form>
     </div>
 </body>
-
-<script language="JavaScript"type="text/javascript">
-    var lesLicenciés = <?php echo json_encode($lesLicenciés); ?>;
-    var lesLicenciésNP =[];
-    lesLicenciés.forEach(licencie => lesLicenciésNP.push(licencie[1]+" - "+licencie[3]));
-    document.querySelector('input[list]').addEventListener('input', function(e) {
-        
-        var participant= document.getElementById("licencié").value;
-
-        if(lesLicenciésNP.includes(participant)){
-            document.getElementById("non_licencie").style.display = "none";
-            document.getElementById("Date_Naissance").removeAttribute('required', "");
-            State = document.getElementById("Valider").value ='Licencié';
-        }
-        else{
-            document.getElementById("non_licencie").style.display = "flex";
-            document.getElementById("Date_Naissance").setAttribute('required', "");
-            State = document.getElementById("Valider").value ='NonLicencié';
-        }
-    });
-
-    document.querySelector('input[list]').addEventListener('input', function(e) {
-        
-        var input = e.target,
-            list = input.getAttribute('list'),
-            options = document.querySelectorAll('#' + list + ' option'),
-            hiddenInput = document.getElementById(input.getAttribute('id') + '-hidden'),
-            inputValue = input.value;
-
-        hiddenInput.value = inputValue;
-
-        
-
-        for(var i = 0; i < options.length; i++) {
-            var option = options[i];
-
-            if(option.innerText === inputValue) {
-                hiddenInput.value = option.getAttribute('data-value');
-                break;
-            }
-        }
-    });
-</script>

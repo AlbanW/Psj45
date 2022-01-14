@@ -257,6 +257,24 @@ foreach ($lesLicenciés as $unLicencié)
                 </label>
                 <?php
     } ?>
+    
+<label for="divers">Divers</label>
+    <?php if ($unLicencié['DIVERS'] == 1 || $unLicencié['DIVERS'] == "on")
+    { ?>
+                <label class="checkbox_label" style="bottom: 0px;">
+                    <input type="checkbox" name="divers" id="divers" class="formLicTailleBox" checked="checked" />
+                    <span class="checkmark"></span>
+                </label>
+                <?php
+    }
+    else
+    { ?>
+                <label class="checkbox_label" style="bottom: 0px;">
+                    <input type="checkbox" name="divers" id="divers" class="formLicTailleBox"/>
+                    <span class="checkmark"></span>
+                </label>
+                <?php
+    } ?>
             </div>
             <div class="formColonne">
 
@@ -354,6 +372,24 @@ foreach ($lesLicenciés as $unLicencié)
                 </label>
                 <?php
     } ?>
+
+<label for="divers">Féminine</label>
+    <?php if ($unLicencié['WOMEN'] == 1 || $unLicencié['WOMEN'] == "on")
+    { ?>
+                <label class="checkbox_label" style="bottom: 0px;">
+                    <input type="checkbox" name="women" id="women" class="formLicTailleBox" checked="checked" />
+                    <span class="checkmark"></span>
+                </label>
+                <?php
+    }
+    else
+    { ?>
+                <label class="checkbox_label" style="bottom: 0px;">
+                    <input type="checkbox" name="women" id="women" class="formLicTailleBox"/>
+                    <span class="checkmark"></span>
+                </label>
+                <?php
+    } ?>
             </div>
 
             <div class="formColonne">
@@ -435,6 +471,23 @@ foreach ($lesLicenciés as $unLicencié)
                 <?php
     } ?>
 
+<label for="partenaire">Salarié d'entreprise partenaire</label>
+    <?php if ($unLicencié['PARTENAIRE'] == 1 || $unLicencié['PARTENAIRE'] == "on")
+    { ?>
+                <label class="checkbox_label" style="bottom: 0px;">
+                    <input type="checkbox" name="partenaire" id="partenaire" class="formLicTailleBox" checked="checked" />
+                    <span class="checkmark"></span>
+                </label>
+                <?php
+    }
+    else
+    { ?>
+                <label class="checkbox_label" style="bottom: 0px;">
+                    <input type="checkbox" name="partenaire" id="partenaire" class="formLicTailleBox"/>
+                    <span class="checkmark"></span>
+                </label>
+                <?php
+    } ?>
             </div>
             </div>
             <hr>
