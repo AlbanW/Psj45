@@ -203,11 +203,19 @@ function getParticipants(){
     }
 }
 
-function getParticipantsInStage(){
+function getParticipantsInStage($id){
     try{
         $monPdo = connexionPDO();
-        $req = 'SELECT * FROM participation_stage;';
-        $res = $monPdo->query($req);
+        $req = '
+        SELECT * FROM participation_stage 
+
+        INNER JOIN licencié ON licencié.Numéro = participation_stage.Numéro_participant
+
+        WHERE Numéro_stage = ?;'
+        
+        ;
+        $res = $monPdo->prepare($req);
+        $res->execute([$id]);
         $lesLignes = $res->fetchAll();
         return $lesLignes;
     } 

@@ -365,6 +365,30 @@ input[type=date] {
     border-style: solid;
     border-color: #ff7b01;
 }
+.btn_delete{
+    text-align: center;
+    padding: 14px 8px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    color: #fff;
+    background-color: rgb(228, 62, 62);
+    transition-property: background-color, border, color;
+    transition-duration: 0.5s;
+    font-family: 'Ubuntu', sans-serif;
+    outline: none;
+    border-style: solid;
+    border-color: rgb(228, 62, 62);
+}
+.btn_delete:hover {
+    background-color: #b33939;;
+    transition-property: background-color, border, color;
+    transition-duration: 0.3s;
+    border-style: solid;
+    border-color: rgb(228, 62, 62);
+    color: rgb(255, 255, 255);
+}
 
 .btn:hover {
     background-color: rgba(255, 123, 1,0.49); 
