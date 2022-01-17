@@ -19,9 +19,9 @@
             echo '
             <span class="Tableau">
             <ul class="menu_categories">
+                <li class="categorie_input">Libellé</li>
                 <li class="categorie_input">Date</li>
                 <li class="categorie_input">Code Tarif</li>
-                <li class="categorie_input">Libellé</li>
             </ul>
             <br/>
             </span>
@@ -34,6 +34,7 @@
         }
         foreach($lesStages as $unStage){;
         ?>
+
         <span class="Tableau">
             <label class="checkbox_label">
                 <input type="checkbox" autocomplete="off" onclick="getNumberSelectedElements(<?php echo $unStage['ID']; ?>)" style="width:45px;" class="Selected";>
@@ -42,6 +43,8 @@
             
             <div class="contient">
                 <?php
+
+                $listday = "";
                 if($unStage['Jour1']!=""){
                     $Jour1 = new DateTime($unStage['Jour1']);
                     $unStage['Jour1'] = $Jour1->format('d/m/Y');
@@ -98,7 +101,10 @@
                 else{
                     $unStage['Jour7'] ="";
                 }
-                ?>
+
+            ?>
+         <a href="index.php?p=stage&test=test&uc=gestionStages&action=voirStage&numero=<?php echo $unStage['ID']; ?>"><input readonly type="text" name="Numéro[]" id="Famille" class="formLicTaille10"  style="cursor: pointer;" value="<?php echo $unStage['Libellé']; ?>" />
+         </a>
                 <input onchange="update()" type="text" id="Txt_Date" placeholder="Date" style="cursor: pointer;" value="<?php echo $listday?>">
                 <script type="text/javascript">
                     ;(function($){
@@ -133,7 +139,6 @@
                 </script>
             </div>
             <input type="text" name="Adresse[]" id="Adresse" class="formFamTailleVilleAdresse" value="<?php echo (getTarifsStageByNum($unStage['Num_Tarif'])['Libellé']);?>"/>
-            <input type="text" style="width:225px;" name="Ville[]" id="Ville" class="formFamTailleVilleAdresse" value="<?php echo $unStage['Libellé'];?>"/>
         </span>
         <?php
         }

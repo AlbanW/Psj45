@@ -11,21 +11,24 @@
         <br>
         <div style="padding:1em">
         <label for="Libelle">Libellé</label>
-        <input type="text" required name="Libelle" id="Libelle" class="formCreaLicTailleCaseHaut"/>
+        <input type="text" required name="Libelle" value="<?= $unStage['Libellé']; ?>"  id="Libelle" class="formCreaLicTailleCaseHaut"/>
         </div>
         <div style="padding:1em">
         <label for="tarif">Tarif</label>
         <select name="tarif" id="tarif" style="cursor: pointer;">
             <?php
             foreach(getTarifsStage() as &$tarif){
-                echo'<option value="'.$tarif['Numéro'].'">'.$tarif['Code'].'</option>';
+                if($tarif['Numéro'] == $stageTarif)
+                    echo'<option value="'.$tarif['Numéro'].'" selected>'.$tarif['Code'].'</option>';
+                else
+                    echo'<option value="'.$tarif['Numéro'].'">'.$tarif['Code'].'</option>';
             }
             ?>   
         </select>
         </div>
         <div class="contient"style="padding:1em">
         <label for="Txt_Date">Dates</label>
-        <input onchange="update()" name="datePicking" type="text" id="Txt_Date" placeholder="Dates" style="cursor: pointer;">
+        <input onchange="update()" type="text" id="Txt_Date" placeholder="Dates" style="cursor: pointer;">
         <script type="text/javascript">
             ;(function($){
                 $.fn.datepicker.dates['FR'] = {
@@ -60,7 +63,9 @@
         </script>
         </div>
         </div>
-        <div style="display: flex; justify-content: center; align-items: center; padding-top: 15em;">
+        <div style="display: flex; justify-content: center; align-items: center;">
             <input class="btn" type="submit" value="Valider" style="width:300px">
         </div>
 </FORM>
+
+<hr>

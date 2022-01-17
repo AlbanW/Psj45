@@ -15,11 +15,12 @@ switch($action)
         include("vues/v_stage_creationStage.php");
 		break;
 	}
-    case 'voirParticipant':
+    case 'voirStage':
         if(isset($_GET['numero']))
         {
-            $participant = getParticipantsByNum($_GET['numero']);
-            include("vues/v_stage_detailParticipant.php");
+            $unStage = getStagesByNum($_GET['numero']);
+            $stageTarif = $unStage['Num_Tarif'];
+            include("vues/v_stage_detailStage.php");
             
         } else {
         include("vues/v_erreur.php");
