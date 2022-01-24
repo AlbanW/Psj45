@@ -98,7 +98,7 @@ foreach($participants as $unParticipant){;
         ?>
         <span class="Tableau">
             <label class="checkbox_label">
-                <input type="checkbox" id="checktest" autocomplete="off" onclick="deleteRow()" style="width:45px;" class="Selected";>
+                <input type="checkbox" id="checktest"  autocomplete="off" onclick="deleteRow()" style="width:45px;" class="Selected";>
                 <span class="checkmark"></span>
             </label>
             

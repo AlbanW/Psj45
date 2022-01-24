@@ -28,7 +28,6 @@
                 </li>
                 <li><a href="#">Participants</a>
                     <ul>
-                        <li><a href="index.php?p=stage&uc=gestionStages&action=participants">Liste des participants</a></li>    
                         <li><a href="index.php?p=stage&uc=gestionStages&action=ajouterParticipant">Ajouter un participants</a></li>
                     </ul>
                 </li>

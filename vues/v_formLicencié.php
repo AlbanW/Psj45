@@ -16,7 +16,6 @@
         <ul class="menu_categories" style="text-align: center;display: inline-flex;align-items: center;gap: 5px;">
             <li style="width:30px;"></li>
             <li class="categorie_input"><a style="cursor: pointer;" href="index.php?p=licencie&uc=gestionLicenciés&action=listeLicencie&sortBy=Famille">Famille</a></li>
-            <li class="categorie_input"><a style="cursor: pointer;" href="index.php?p=licencie&uc=gestionLicenciés&action=listeLicencie&sortBy=Nom_licencié">Nom</a></li>
             <li class="categorie_input"><a style="cursor: pointer;" href="index.php?p=licencie&uc=gestionLicenciés&action=listeLicencie&sortBy=Prénom_licencié">Prénom</a></li>
             <li class="categorie_select"><a style="cursor: pointer;" href="index.php?p=licencie&uc=gestionLicenciés&action=listeLicencie&sortBy=Sexe">Sexe</a></li>
             <li class="categorie_input" style="width:135px;"><a style="cursor: pointer;" href="index.php?p=licencie&uc=gestionLicenciés&action=listeLicencie&sortBy=Date_Naissance">Date de naissance</a></li>
@@ -24,7 +23,6 @@
             <li class="categorie_input" style="width:100px;"><a style="cursor: pointer;" href="index.php?p=licencie&uc=gestionLicenciés&action=listeLicencie&sortBy=Tel_domicile"> Tel Domicile</a></li>
             <li class="categorie_input" style="width:100px;"> Tel Travail </li>
             <li class="categorie_input"><a style="cursor: pointer;" href="index.php?p=licencie&uc=gestionLicenciés&action=listeLicencie&sortBy=Email_perso"> Email Perso </a></li>
-            <li class="categorie_input"> Email Travail </li>
             <li class="categorie_select"><a style="cursor: pointer;" href="index.php?p=licencie&uc=gestionLicenciés&action=listeLicencie&sortBy=Catégorie_1"> Cat1 </a></li>
             <li class="categorie_select" style="width:80px;"><a style="cursor: pointer;" href="index.php?p=licencie&uc=gestionLicenciés&action=listeLicencie&sortBy=Type_licence"> Licence </a></li>
             <li class="categorie_checkbox"><a style="cursor: pointer;" href="index.php?p=licencie&uc=gestionLicenciés&action=listeLicencie&sortBy=Inscription"> Inscription </a></li>
@@ -80,7 +78,6 @@
         </label>
         <input readonly type="hidden" name="Numéro[]" id="Numéro" value="<?php echo $unLicencié['Numéro']; ?>">
         <a href="index.php?p=licencie&test=test&uc=gestionLicenciés&action=listeLicencie2&numero=<?php echo $unLicencié['Numéro']; ?>"><input readonly type="text" name="Famille[]" id="Famille" class="formLicTaille10"  style="cursor: pointer;" value="<?php echo $unLicencié['Famille']; ?>" /></a>
-        <input readonly type="text" name="Nom_licencié[]" value="<?php echo $unLicencié['Nom_licencié']; ?>" />
         <input readonly type="text" name="Prénom_licencié[]" id="Prénom_licencié" class="formLicTaille10" value="<?php echo $unLicencié['Prénom_licencié']; ?>" />
         <select disabled="disabled" style="width:45px;" name="Sexe[]" ;>
             <?php if ($unLicencié['Sexe'] == "M") { ?>
@@ -102,7 +99,6 @@
         <input readonly type="text" name="Tel_domicile[]" id="Tel_domicile" class="formLicTailleTel" value="<?php echo $unLicencié['Tel_domicile']; ?>" />
         <input readonly type="text" name="Tel_travail[]" id="Tel_travail" class="formLicTailleTel" value="<?php echo $unLicencié['Tel_travail']; ?>" />
         <input readonly type="text" name="Email_perso[]" id="Email_perso" class="formLicTaille10" value="<?php echo $unLicencié['Email_perso']; ?>" title="<?php echo $unLicencié['Email_perso']; ?>" />
-        <input readonly type="text" name="Email_travail[]" id="Email_travail" class="formLicTaille10" value="<?php echo $unLicencié['Email_travail']; ?>" title="<?php echo $unLicencié['Email_travail']; ?>" />
         <select disabled="disabled" style="width:45px;" name="Catégorie_1[]" class="formLicTaille3" ;>
         <?php
             if(!isset($unLicencié['Catégorie_1'])){
