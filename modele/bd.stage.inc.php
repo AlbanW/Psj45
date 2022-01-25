@@ -50,6 +50,49 @@ function getStages(){
     }
 }
 
+function insertOperation($licencie, $tarif, $codeTarif, $nomStage)
+{
+    try {
+        $monPdo = connexionPDO();
+        $req= $monPdo->prepare("INSERT INTO opérations_compte_stage (NuméroLicencié,Famille,Prénom,Code_opération,Libellé_libre_opération,Date_opération,Débit)
+        values(?, ?, ?, ?, ?, now(), ?)");
+        $req->execute([
+            $licencie['Numéro'], $licencie['Famille'], $licencie['Prénom_licencié'], $codeTarif, $nomStage, $tarif  
+        ]);
+    } catch(PDOException $e)
+    {
+        print "Erreur!";
+        die();
+    }
+}
+
+function calculStageTarif($data, $tarif)
+{
+    try {   
+        $input = [
+            $tarif['Semaine'],
+            $tarif['Lundi_mat'], $tarif['Lundi_apr'],
+            $tarif['Mardi_mat'], $tarif['Mardi_apr'],
+            $tarif['Mercredi_mat'], $tarif['Mercredi_apr'],
+            $tarif['Jeudi_mat'], $tarif['Jeudi_apr'],
+            $tarif['Vendredi_mat'], $tarif['Vendredi_apr'],
+            $tarif['Samedi_mat'], $tarif['Samedi_apr'],
+            $tarif['Dimanche_mat'], $tarif['Dimanche_apr']
+        ];
+
+        $tarif = 0;
+        for($i = 0; $i <= 14; $i++)
+        {
+            $tarif += ($data[$i] * $input[$i]);
+        }
+        return $tarif;
+    } catch(PDOException $e)
+    {
+        print "Erreur!";
+        die();
+    }
+}
+
 function getStagesByNum($num){
     try{
         $monPdo = connexionPDO();
@@ -166,7 +209,6 @@ function addParticipant($data){
     $monPdo = connexionPDO();
     
     $id = $_POST['licencié'];
-    var_dump($id);
     if(!ifAlreadyAddInThisStage($id,$Stage)){
         $req = $monPdo->prepare('INSERT INTO participation_stage (Numéro_participant,Numéro_stage, complet, l_m, l_a, ma_m, ma_a, mer_m, mer_a, jeudi_m, jeudi_a, vendredi_m, vendredi_a, samedi_m, samedi_a, dimanche_m, dimanche_a) values (?,?, ?, ?, ?, ?,?,?,?,?,?,?,?,?,?,?,?);');
         $res=$req->execute([
@@ -231,7 +273,67 @@ function getParticipants(){
     }
 }
 
+function getLesOpérationsStage($num)
+	{
+		try 
+		{
+        $monPdo = connexionPDO();
+		$req = 'SELECT * FROM opérations_compte_stage WHERE NuméroLicencié="'.$num.'" order by Numéro;'; 
+		$res = $monPdo->query($req);
+		$lesLignes = $res->fetchAll();
+		return $lesLignes;
+		} 
+		catch (PDOException $e) 
+		{
+        print "Erreur !: " . $e->getMessage();
+        die();
+		}
+	}
 
+    
+    function getStageCredit($num)
+	{
+		try 
+		{
+        $monPdo = connexionPDO();
+		$req = 'SELECT Crédit FROM opérations_compte_stage WHERE Crédit != 0 AND NuméroLicencié="'.$num.'"  order by Numéro;'; 
+		$res = $monPdo->query($req);
+		$lesLignes = $res->fetchAll();
+        $credit = 0;
+        foreach($lesLignes as $ligne)
+        {
+            $credit += $ligne[0];
+        }
+		return $credit;
+		} 
+		catch (PDOException $e) 
+		{
+        print "Erreur !: " . $e->getMessage();
+        die();
+		}
+	}
+
+    function getStageDebit($num)
+	{
+		try 
+		{
+        $monPdo = connexionPDO();
+		$req = 'SELECT Débit FROM opérations_compte_stage WHERE Débit != 0 AND NuméroLicencié="'.$num.'"  order by Numéro;'; 
+		$res = $monPdo->query($req);
+		$lesLignes = $res->fetchAll();
+        $debit = 0;
+        foreach($lesLignes as $ligne)
+        {
+            $debit += $ligne[0];
+        }
+		return $debit;
+		} 
+		catch (PDOException $e) 
+		{
+        print "Erreur !: " . $e->getMessage();
+        die();
+		}
+	}
 
 function getParticipantsInStage($id){
     try{

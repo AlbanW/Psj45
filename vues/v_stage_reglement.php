@@ -9,7 +9,6 @@
 	<td style="width:171px">Famille</td>
     <td style="width:96px">Prénom</td>
 	<td style="width:171px">Date</td>
-	<td style="width:196px">Objet règlement </td>
 	<td style="width:171px">Type paiement</td>
 	<td style="width:171px">Montant</td>
 	<td style="width:196px">Banque</td>
@@ -25,22 +24,12 @@
 	
 	<?php
     
-	$unParticipant = getParticipantsByNum($_GET["participant"]);
-    if($unParticipant['Numéro_licencie']!=""){
-        $licencié = getLesInfosLicenciésByNum($unParticipant['Numéro_licencie']);
+        $licencié = getLesInfosLicenciésByNum($_GET['participant']);
         $Nom = $licencié['Nom_licencié'];
         $Prenom = $licencié['Prénom_licencié'];
         $Tel_mobile = $licencié['Tel_mobile'];
         $Email = $licencié['Email_perso'];
         $Date_Naissance = $licencié['Date_Naissance'];
-    }
-    else{
-        $Nom = $unParticipant['Nom'];
-        $Prenom = $unParticipant['Prenom'];
-        $Tel_mobile = $unParticipant['Tel_mobile'];
-        $Email = $unParticipant['Email_perso'];
-        $Date_Naissance = $unParticipant['Date_Naissance'];
-    }
 	echo'
     <input type="text" readonly name="Nom" id="Nom" class="formRegTailleFam" value="'.$Nom.'"/>
     
@@ -48,25 +37,39 @@
     
     ';
 
+  
     echo '<input type="date" name="Date_opération" id="Date_opération" value="'.date('Y-m-d').'" class="formRegTailleDate"/>';
 
-	echo '
-    <select name="Objet_règlement" style="width:200px;">
-        <option value="ex"> exemple </option>
-    </select>';
+
 	
 	
-	echo '
-    <select name="Type_paiement" style="width:175px;">
-        <option value="ex">exemple</option>
-    </select>';
+	$lesTypePaiements = getTypePaiement();
+	
+	echo '<select name="Type_paiement" style="width:175px;">';
+
+    foreach($lesTypePaiements as $unTypePaiement){
+        echo '<option value="'.$unTypePaiement["Libellé_paiement"].'">'.$unTypePaiement["Libellé_paiement"].' </option>';
+    }
+
+    echo'</select>';
 	?>
 	
 	<input type="text" name="Montant" id="Montant" class="formRegTailleMontant"/>
 	
+	<?php
+	$lesBanques = getBanque();{
+	?>
 	<select name="Banque" style="width:200px;">
-        <option value="ex">exemple</option>';
+		<?php
+        foreach ($lesBanques as $uneBanque)
+        {
+            echo '<option value="'.$uneBanque["Libellé_banque"].'">'.$uneBanque["Libellé_banque"].' </option>';
+        }
+        ?>
 	</select>
+	<?php
+	}
+	?>
 	
 	<input type="text" name="Code_chèque" id="Code_chèque"/>
 	</div>
@@ -76,6 +79,7 @@
     </FORM>
 
 	<hr>
+	
 	
 	<!-- entête liste des opérations pour une famille du formulaire règlement-->
 	<!--
@@ -101,7 +105,7 @@
 	<!-- liste des opérations pour une famille dans formulaire règlement-->	
 	
 	<?php
-	$lesOpérations = getLesOpérationsFamille();
+	$lesOpérations = getLesOpérationsStage($_GET['participant']);
 	foreach ($lesOpérations as $uneOpération)
         {
 			$fam = $uneOpération['Famille'];
@@ -153,31 +157,10 @@
 	
 	<!-- solde d'une famille dans formulaire règlement-->
 	<div class="TableauOperations">
-	<?php
-	$lesSoldes = getSolde();{
-	foreach ($lesSoldes as $unSolde)
-        {
-			$fam = $unSolde['Famille'];
-			$debit = $unSolde['debit'];
-			$credit = $unSolde['credit'];
-			$somme = $credit-$debit;
-			if($somme<0){
-			?>
-			<?php echo '<h2 style="color: #e95530;">Solde : '.sprintf("%.02f",$somme).'</h2>' ?>
-			<?php
-			}
-			else
-				if($somme>0){
-				?>
-				<?php echo '<h2 style="color: #4ad85a;">Solde : '.sprintf("%.02f",$somme).'</h2>' ?>
-				<?php
-				} else {
-					?>
-					<?php echo '<h2>Solde : '.sprintf("%.02f",$somme).'</h2>' ?>
-			<?php
-				}
-		}		
-	}
-	?>
+		<?php if($solde >= 0) { ?>
+			<h2 style="color: white;">Solde : <?= $solde; ?>€</h2>
+		<?php }else{ ?>
+			<h2 style="color:  #e95530;">Solde : <?= $solde; ?>€</h2>
+		<?php } ?>
 	</div>
 	<hr>

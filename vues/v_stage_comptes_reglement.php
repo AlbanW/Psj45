@@ -14,15 +14,15 @@
             <?php
             foreach ($lesParticipants as $unParticipant)
                 {
-                    $unParticipant = getParticipantsByNum($unParticipant['Numéro_participant']);
-                    if($unParticipant['Numéro_licencie']!=""){
-                        $licencié = getLesInfosLicenciésByNum($unParticipant['Numéro_licencie']);
+                    $unParticipant = getParticipantsByNum($unParticipant['Numéro']);
+                    if($unParticipant['Numéro']!=""){
+                        $licencié = getLesInfosLicenciésByNum($unParticipant['Numéro']);
                         $Nom = $licencié['Nom_licencié'];
                         $Prenom = $licencié['Prénom_licencié'];
                     }
                     else{
-                        $Nom = $unParticipant['Nom'];
-                        $Prenom = $unParticipant['Prenom'];
+                        $Nom = $unParticipant['Nom_licencié'];
+                        $Prenom = $unParticipant['Prénom_licencié'];
                     }
                     echo '<OPTION value="'.$unParticipant['Numéro'].'" >'.$Nom.' - '.$Prenom.'</OPTION>';
                 }

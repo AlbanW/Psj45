@@ -91,9 +91,16 @@ switch($action)
                 $dimancheAM, $dimanchePM,
             ];
             $stage = $_POST['Stage'];
-            $tarif = getStagesByNum($stage)['Num_Tarif'];
-            var_dump($tarif);
-            //addParticipant($data);
+            $stageTarif = getTarifsStageByNum(getStagesByNum($stage)['Num_Tarif']);
+            $tarif = calculStageTarif($data, $stageTarif);
+
+            $codeTarif = $stageTarif['Code'];
+            $nomStage = getStagesByNum($stage)['Libellé'];
+
+            $id = getLesInfosLicenciésByNum($_POST['licencié']);
+            insertOperation($id, $tarif, $codeTarif, $nomStage);
+            
+            addParticipant($data);
             include("vues/v_stage_ajoutParticipants.php");
         }
         else{
@@ -186,12 +193,18 @@ switch($action)
     }
     case 'reglement':
     {
-        include("vues/v_stage_reglement.php");
+        if(isset($_GET['participant']))
+        {
+            $debit = 0 - getStageDebit($_GET['participant']);
+            $credit = getStageCredit($_GET['participant']);
+            $solde = $debit + $credit;
+            include("vues/v_stage_reglement.php");
+        }
         break;
     }
     case 'comptes_reglement':
     {
-        $lesParticipants = getParticipantsInStage();
+        $lesParticipants = getParticipants();
         include("vues/v_stage_comptes_reglement.php");
         break;
     }
