@@ -35,6 +35,22 @@ date_default_timezone_set('Europe/Paris');
         }
     }
 		
+    function getLicencié($numero)
+    {
+        try 
+        {
+        $monPdo = connexionPDO();
+		$req= "select * from licencié where Numéro = '".$numero."'";
+		$res = $monPdo->query($req);
+        return $res->fetch();
+        }
+        catch (PDOException $e) 
+        {
+        print "Erreur !: " . $e->getMessage();
+        die();
+        }
+    }
+		
 	/*fonction qui ajoute un licencié et les opérations qui découlent de l'inscription du licencié dans formulaire création licencié*/
 	function creerLicencie($famille,$nom,$prenom,$sexe,$dateNaiss,$telMob,$telDom,$telTrav,$emailPerso,$emailTrav,$cat1,$typeLic,$inscri,$DateInscri,
 	$natio,$competIndiv,$SJR,$certificat,$bureau,$unLic,$autreClub,$essai,$handicap,$stage,$demi,$licGratuite,$equipeSenior,$photoVideo, $partenaire, $divers, $babyPing, $women)

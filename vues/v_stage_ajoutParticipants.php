@@ -33,7 +33,7 @@
                 </div>
                 <div style="display:flex;align-items: center">
                     <label for="tarif">Semaine complète</label>
-                    <input type="checkbox" onclick="disableDayOfWeekSelector()" id="Week" name="Week" value="Week" style="margin-left:15px">       
+                    <input type="checkbox" onclick="disableDayOfWeekSelector()" id="Week" name="Week" style="margin-left:15px">       
                 </div>
                 <div id="selection_jours" class="selection_jours"> 
                     <table>

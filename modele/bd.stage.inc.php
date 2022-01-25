@@ -161,15 +161,24 @@ function sortDate($date1,$date2) {
     return strtotime($date1) - strtotime($date2);
 }
 
-function addParticipant(){
+function addParticipant($data){
     extract($_POST);
     $monPdo = connexionPDO();
     
     $id = $_POST['licencié'];
     var_dump($id);
     if(!ifAlreadyAddInThisStage($id,$Stage)){
-        $req = $monPdo->prepare('INSERT INTO participation_stage (Numéro_participant,Numéro_stage) values (?,?);');
-        $res=$req->execute([$id,$Stage]);
+        $req = $monPdo->prepare('INSERT INTO participation_stage (Numéro_participant,Numéro_stage, complet, l_m, l_a, ma_m, ma_a, mer_m, mer_a, jeudi_m, jeudi_a, vendredi_m, vendredi_a, samedi_m, samedi_a, dimanche_m, dimanche_a) values (?,?, ?, ?, ?, ?,?,?,?,?,?,?,?,?,?,?,?);');
+        $res=$req->execute([
+            $id,$Stage, $data[0],
+            $data[1], $data[2],
+            $data[3], $data[4],
+            $data[5], $data[6],
+            $data[7], $data[8],
+            $data[9], $data[10],
+            $data[11], $data[12],
+            $data[13], $data[14]
+        ]);
     } else{
         echo'
         <div></div>
@@ -179,10 +188,29 @@ function addParticipant(){
             description: "Ce participant fait déjà parti de ce stage!", 
             duration: 4000
         });
-        setTimeout(() =>{ window.history.back(); }, 3200);
         </script>';
     }
 }
+
+
+function deleteParticipation($num)
+{
+    $monPdo = connexionPDO();
+    $req = $string = 'DELETE FROM participation_stage WHERE Numéro = '.$num.';';
+    $res=$monPdo->query($req);
+}
+function modifierParticipant($data, $id, $lic){
+    extract($_POST);
+        $monPdo = connexionPDO();
+        $req = $string = 'UPDATE participation_stage SET complet = '.$data[0].' , l_m = '.$data[1].', l_a = '.$data[2].', ma_m = '.$data[3].', ma_a = '.$data[4].', mer_m = '.$data[5].', mer_a = '.$data[6].', jeudi_m = '.$data[7].', jeudi_a = '.$data[8].', vendredi_m = '.$data[9].', vendredi_a = '.$data[10].', samedi_m = '.$data[11].', samedi_a = '.$data[12].', dimanche_m = '.$data[13].', dimanche_a = '.$data[14].' WHERE Numéro = '.$id.';';
+        $res=$monPdo->query($req);
+    }
+    function modifierStage($nom, $tarif, $id)
+    {
+            $monPdo = connexionPDO();
+            $req = $string = 'UPDATE stages SET Libellé = "'.$nom.'" , Num_Tarif = "'.$tarif.'" WHERE ID = "'.$id.'";';
+            $res=$monPdo->query($req);
+    }
 
 function getParticipants(){
     try{
@@ -202,6 +230,8 @@ function getParticipants(){
         die();
     }
 }
+
+
 
 function getParticipantsInStage($id){
     try{
@@ -234,6 +264,21 @@ function getParticipantsByNum($num){
             INNER JOIN stages ON stages.ID = participation_stage.Numéro_stage
             WHERE licencié.Numéro = '.$num.';';
 
+        $res = $monPdo->query($req);
+        $lesLignes = $res->fetch();
+        return $lesLignes;
+    } 
+    catch (PDOException $e){
+        print "Erreur !: " . $e->getMessage();
+        die();
+    }
+}
+
+
+function getUneParticipation($num){
+    try{
+        $monPdo = connexionPDO();
+        $req = 'SELECT * FROM participation_stage WHERE Numéro='.$num.';';
         $res = $monPdo->query($req);
         $lesLignes = $res->fetch();
         return $lesLignes;

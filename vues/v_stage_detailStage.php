@@ -11,12 +11,12 @@
 <center><br><br>
 <h1>Modifier stage</h1><br><br>
 </center>
-	<FORM action="index.php?p=stage&uc=gestionStages&action=créerStage" method="post">
+	<FORM action="index.php?p=stage&uc=gestionStages&action=modifierStage&numero=<?= $_GET['numero'];?>" method="post">
         <div style="display: flex; justify-content: center; align-items: flex-start; ">
         <br>
         <div style="padding:1em">
         <label for="Libelle">Libellé</label>
-        <input type="text" required name="Libelle" value="<?= $unStage['Libellé']; ?>"  id="Libelle" class="formCreaLicTailleCaseHaut"/>
+        <input type="text" required name="libelle" value="<?= $unStage['Libellé']; ?>"  id="Libelle" class="formCreaLicTailleCaseHaut"/>
         </div>
         <div style="padding:1em">
         <label for="tarif">Tarif</label>
@@ -69,7 +69,7 @@
         </div>
         </div>
         <div style="display: flex; justify-content: center; align-items: center;">
-            <input class="btn" type="submit" value="Valider" style="width:300px">
+            <input class="btn" type="submit" name="validForm" value="Valider" style="width:300px">
         </div>
 </FORM>
 <br><br><br>
@@ -86,15 +86,16 @@ echo '
     <li class="categorie_input" style="padding-left:45px">Nom</li>
     <li class="categorie_input">Prenom</li>
     <li class="categorie_input" style="width:100px;">Stage n°</li>
-    <li class="categorie_input" style="width:100px;">Reste a payer</li>
 </ul>
 <br/>
 </span>
 ';
 foreach($participants as $unParticipant){;
+
                 $Nom = $unParticipant['Nom_licencié'];
                 $Prenom = $unParticipant['Prénom_licencié'];
                 $Libellé = $unStage['Libellé'];
+                $numParticipation = $unParticipant[0];
         ?>
         <span class="Tableau">
             <label class="checkbox_label">
@@ -103,10 +104,10 @@ foreach($participants as $unParticipant){;
             </label>
             
             <input type="hidden" name="Numéro[]" id="Numéro_part" value="<?php echo $num;?>">
-            <input type="text" required name="Nom_participant[]" id="Nom_participant" class="formFamTailleNom" style="width:175px;" value="<?php echo $Nom?>"/>
+            <a href="index.php?p=stage&test=test&uc=gestionStages&action=detailParticipant&numero=<?php echo $numParticipation; ?>"><input readonly type="text" name="Numéro[]" id="Famille" class="formLicTaille10"  style="cursor: pointer;" value="<?php echo $Nom; ?>" /></a>
+
             <input type="text" required name="Prenom_participant[]" id="Prenom_participant" class="formFamTailleNom" style="width:175px;" value="<?php echo $Prenom?>"/>
             <input type="text" required name="ID_Stage[]" id="ID_stage" class="formFamTailleNom" style="width:175px;" value="<?php echo $Libellé ?>"/>
-            <input type="text" required name="ID_Stage[]" id="ID_stage" class="formFamTailleNom" style="width:175px;" value="A FAIRE"/>
         </span>
         <?php
         }
@@ -114,32 +115,4 @@ foreach($participants as $unParticipant){;
         <div style="display: flex; justify-content: center; align-items: center;">
             <input class="btn_delete" id="deleteCheckbox" style="display:none;width:300px" type="submit" value="Supprimer"  ">
         </div>
-        <script>
-            function deleteRow()
-            {
-                var valores = (function () {
-                var valor = [];
-                $('input.Selected[type=checkbox]').each(function () {
-                    if (this.checked)
-                        valor.push($(this).val());
-                });
-                return valor;
-
-            })();
-                var size = valores.length;
-                if(size > 0)
-                {
-                    elmts = document.getElementsByClassName("btn_delete");
-                    for(var i=0;i<elmts.length;i++)
-                    {
-                        elmts[i].style.display='block';
-                    }
-                } else {
-                    elmts = document.getElementsByClassName("btn_delete");
-                    for(var i=0;i<elmts.length;i++)
-                    {
-                        elmts[i].style.display='none';
-                    }
-                }
-            }
-        </script>
+       
