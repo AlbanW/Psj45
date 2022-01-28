@@ -98,7 +98,7 @@ switch($action)
             $nomStage = getStagesByNum($stage)['Libellé'];
 
             $id = getLesInfosLicenciésByNum($_POST['licencié']);
-            insertOperation($id, $tarif, $codeTarif, $nomStage);
+            insertOperation($id, $tarif, $codeTarif, $nomStage, getStagesByNum($stage)['ID']);
             
             addParticipant($data);
             include("vues/v_stage_ajoutParticipants.php");
@@ -120,6 +120,8 @@ switch($action)
         case 'modifierParticipant':
             {
                 if(isset($_POST['deleteForm']) && isset($_GET['numero']) && isset($_GET['numlic'])){
+                    $participant = getUneParticipation($_GET['numero']);
+                    deleteOperation($_GET['numlic'], $participant['Numéro_stage']);
                     deleteParticipation($_GET['numero']);
                     
                     include("vues/v_stage_listeStages.php"); 
@@ -170,12 +172,23 @@ switch($action)
                         $samediAM, $samediPM,
                         $dimancheAM, $dimanchePM,
                     ];
-                    modifierParticipant($data, $_GET['numero'], $_GET['numlic']);
 
                     
                     $participant = getUneParticipation($_GET['numero']);
                     $unLicencié = getLicencié($participant['Numéro_participant']);
                     $unStage = getStagesByNum($participant['Numéro_stage']);
+
+                    $stageTarif = getTarifsStageByNum($unStage['Num_Tarif']);
+                    $tarif = calculStageTarif($data, $stageTarif);
+        
+                    $codeTarif = $stageTarif['Code'];
+                    $nomStage = $unStage['Libellé'];
+                    deleteOperation($_GET['numlic'], $participant['Numéro_stage']);
+                    insertOperation($unLicencié, $tarif, $codeTarif, $nomStage, $participant['Numéro_stage']);
+
+                    modifierParticipant($data, $_GET['numero'], $_GET['numlic']);
+
+
         
                     include("vues/v_stage_detailStage.php"); 
                 }

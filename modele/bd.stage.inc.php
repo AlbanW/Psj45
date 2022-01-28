@@ -49,20 +49,35 @@ function getStages(){
         die();
     }
 }
-
-function insertOperation($licencie, $tarif, $codeTarif, $nomStage)
+function deleteOperation($licencie, $part)
 {
     try {
         $monPdo = connexionPDO();
-        $req= $monPdo->prepare("INSERT INTO opérations_compte_stage (NuméroLicencié,Famille,Prénom,Code_opération,Libellé_libre_opération,Date_opération,Débit)
-        values(?, ?, ?, ?, ?, now(), ?)");
+        $req= $monPdo->prepare("DELETE FROM opérations_compte_stage WHERE NuméroLicencié = ? AND NuméroStage = ?");
         $req->execute([
-            $licencie['Numéro'], $licencie['Famille'], $licencie['Prénom_licencié'], $codeTarif, $nomStage, $tarif  
+            $licencie, $part
         ]);
     } catch(PDOException $e)
     {
         print "Erreur!";
         die();
+    }
+}
+function insertOperation($licencie, $tarif, $codeTarif, $nomStage, $numStage)
+{
+    if(!ifAlreadyAddInThisStage( $licencie['Numéro'] , $numStage )){
+        try {
+            $monPdo = connexionPDO();
+            $req= $monPdo->prepare("INSERT INTO opérations_compte_stage (NuméroLicencié,NuméroStage, Famille,Prénom,Code_opération,Libellé_libre_opération,Date_opération,Débit)
+            values(?, ?, ?, ?, ?, ?, now(), ?)");
+            $req->execute([
+                $licencie['Numéro'], $numStage, $licencie['Famille'], $licencie['Prénom_licencié'], $codeTarif, $nomStage, $tarif  
+            ]);
+        } catch(PDOException $e)
+        {
+            print "Erreur!";
+            die();
+        }
     }
 }
 
@@ -261,6 +276,7 @@ function getParticipants(){
             SELECT * FROM participation_stage
                 INNER JOIN licencié ON licencié.Numéro = participation_stage.Numéro_participant
                 INNER JOIN stages ON stages.ID = participation_stage.Numéro_stage
+                GROUP BY Numéro_participant
             ;
         ';
         $res = $monPdo->query($req);
