@@ -31,42 +31,7 @@
             ?>   
         </select>
         </div>
-        <div class="contient"style="padding:1em">
-        <label for="Txt_Date">Dates</label>
-        <input onchange="update()" type="text" id="Txt_Date" placeholder="Dates" style="cursor: pointer;">
-        <script type="text/javascript">
-            ;(function($){
-                $.fn.datepicker.dates['FR'] = {
-                days: ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"],
-                daysShort: ["dim.", "lun.", "mar.", "mer.", "jeu.", "ven.", "sam."],
-                daysMin: ["d", "l", "ma", "me", "j", "v", "s"],
-                months: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"],
-                monthsShort: ["janv.", "févr.", "mars", "avril", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."],
-                today: "Aujourd'hui",
-                monthsTitle: "Mois",
-                clear: "Effacer",
-                weekStart: 1,
-                format: "dd/mm/yyyy"
-                };
-            }(jQuery));
-            $("#Txt_Date").datepicker({
-                format: 'dd/mm/yyyy',
-                inline: true,
-                language: 'fr',
-                step: 7,
-                multidate: 7,
-                container: '.contient',
-                todayHighlight: true,
-                orentation: top,
-                startDate: '-4d',
-                widgetPositioning: {horizontal: "bottom",vertical: "auto"}
-            });
-            function update(){
-                $date = $("#Txt_Date").data('datepicker').getFormattedDate('yyyy-mm-dd');
-                document.cookie="selectedDays="+$date+";max-age=86400;";
-            }
-        </script>
-        </div>
+ 
         </div>
         <div style="display: flex; justify-content: center; align-items: center;">
             <input class="btn" type="submit" name="validForm" value="Valider" style="width:300px">
@@ -76,7 +41,7 @@
 <hr>
 <br><br><br>
 <center>
-<h1>Liste participant</h1>
+<h1>Liste participant(s)</h1>
 </center><br><br>
 <?php
 $participants = getParticipantsInStage($unStage['ID']);    
@@ -86,6 +51,7 @@ echo '
     <li class="categorie_input" style="padding-left:45px">Nom</li>
     <li class="categorie_input">Prenom</li>
     <li class="categorie_input" style="width:100px;">Stage n°</li>
+    <li class="categorie_input" style="width:100px;">Montant à régler</li>
 </ul>
 <br/>
 </span>
@@ -96,6 +62,10 @@ foreach($participants as $unParticipant){;
                 $Prenom = $unParticipant['Prénom_licencié'];
                 $Libellé = $unStage['Libellé'];
                 $numParticipation = $unParticipant[0];
+                $debit = 0 - getStageDebit($unParticipant['Numéro_participant'], $unStage['ID']);
+                $credit = getStageCredit($unParticipant['Numéro_participant'], $unStage['ID']);
+                $solde = $debit + $credit;
+
         ?>
         <span class="Tableau">
             <label class="checkbox_label">
@@ -108,6 +78,7 @@ foreach($participants as $unParticipant){;
 
             <input type="text" required name="Prenom_participant[]" id="Prenom_participant" class="formFamTailleNom" style="width:175px;" value="<?php echo $Prenom?>"/>
             <input type="text" required name="ID_Stage[]" id="ID_stage" class="formFamTailleNom" style="width:175px;" value="<?php echo $Libellé ?>"/>
+            <input type="text" required name="Montant_Stage[]" id="Montant_Stage" class="formFamTailleNom" style="width:175px;" value="<?php echo $solde; ?> €"/>
         </span>
         <?php
         }

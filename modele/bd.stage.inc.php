@@ -80,7 +80,21 @@ function insertOperation($licencie, $tarif, $codeTarif, $nomStage, $numStage)
         }
     }
 }
-
+function insertEditOperation($licencie, $tarif, $codeTarif, $nomStage, $numStage)
+{
+        try {
+            $monPdo = connexionPDO();
+            $req= $monPdo->prepare("INSERT INTO opérations_compte_stage (NuméroLicencié,NuméroStage, Famille,Prénom,Code_opération,Libellé_libre_opération,Date_opération,Débit)
+            values(?, ?, ?, ?, ?, ?, now(), ?)");
+            $req->execute([
+                $licencie['Numéro'], $numStage, $licencie['Famille'], $licencie['Prénom_licencié'], $codeTarif, $nomStage, $tarif  
+            ]);
+        } catch(PDOException $e)
+        {
+            print "Erreur!";
+            die();
+        }
+}
 function calculStageTarif($data, $tarif)
 {
     try {   
@@ -307,12 +321,28 @@ function getLesOpérationsStage($num)
 	}
 
     
-    function getStageCredit($num)
+function getUneOpérationsStage($num, $stage)
+{
+    try 
+    {
+    $monPdo = connexionPDO();
+    $req = 'SELECT * FROM opérations_compte_stage WHERE NuméroLicencié="'.$num.'" AND NuméroStage = "'.$stage.'" order by Numéro;'; 
+    $res = $monPdo->query($req);
+    $lesLignes = $res->fetchAll();
+    return $lesLignes;
+    } 
+    catch (PDOException $e) 
+    {
+    print "Erreur !: " . $e->getMessage();
+    die();
+    }
+}
+    function getStageCredit($num, $stage)
 	{
 		try 
 		{
         $monPdo = connexionPDO();
-		$req = 'SELECT Crédit FROM opérations_compte_stage WHERE Crédit != 0 AND NuméroLicencié="'.$num.'"  order by Numéro;'; 
+		$req = 'SELECT Crédit FROM opérations_compte_stage WHERE Crédit != 0 AND NuméroLicencié="'.$num.'" AND NuméroStage = "'.$stage.'" order by Numéro;'; 
 		$res = $monPdo->query($req);
 		$lesLignes = $res->fetchAll();
         $credit = 0;
@@ -329,12 +359,12 @@ function getLesOpérationsStage($num)
 		}
 	}
 
-    function getStageDebit($num)
+    function getStageDebit($num, $stage)
 	{
 		try 
 		{
         $monPdo = connexionPDO();
-		$req = 'SELECT Débit FROM opérations_compte_stage WHERE Débit != 0 AND NuméroLicencié="'.$num.'"  order by Numéro;'; 
+		$req = 'SELECT Débit FROM opérations_compte_stage WHERE Débit != 0 AND NuméroLicencié="'.$num.'"  AND NuméroStage = "'.$stage.'" order by Numéro;'; 
 		$res = $monPdo->query($req);
 		$lesLignes = $res->fetchAll();
         $debit = 0;
@@ -366,6 +396,24 @@ function getParticipantsInStage($id){
         $res->execute([$id]);
         $lesLignes = $res->fetchAll();
         return $lesLignes;
+    } 
+    catch (PDOException $e){
+        print "Erreur !: " . $e->getMessage();
+        die();
+    }
+}
+
+function getAmountParticipantsInStage($id){
+    try{
+        $monPdo = connexionPDO();
+        $req = '
+        SELECT count(*) FROM participation_stage 
+        WHERE Numéro_stage = ?;'
+        
+        ;
+        $res = $monPdo->prepare($req);
+        $res->execute([$id]);
+        return $res->fetch()['count(*)'];
     } 
     catch (PDOException $e){
         print "Erreur !: " . $e->getMessage();

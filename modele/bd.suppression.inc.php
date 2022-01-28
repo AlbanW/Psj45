@@ -77,6 +77,12 @@ function supprimerStage($num)
         $monPdo = connexionPDO();
         $req = $monPdo->prepare("DELETE FROM stages WHERE ID= :num");
         $res=$req->execute(array('num'=>$num));
+
+        $req = $monPdo->prepare("DELETE FROM opérations_compte_stage WHERE NuméroStage= :num");
+        $res=$req->execute(array('num'=>$num));
+
+        $req = $monPdo->prepare("DELETE FROM participation_stage WHERE Numéro_stage= :num");
+        $res=$req->execute(array('num'=>$num));
         return $res;
     }
     catch (PDOException $e){

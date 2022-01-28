@@ -40,6 +40,10 @@ switch($action)
             $unLicencié = getLicencié($participant['Numéro_participant']);
             $unStage = getStagesByNum($participant['Numéro_stage']);
 
+
+            $debit = 0 - getStageDebit($participant['Numéro_participant'], $participant['Numéro_stage']);
+            $credit = getStageCredit($participant['Numéro_participant'], $participant['Numéro_stage']);
+            $solde = $debit + $credit;
             include("vues/v_stage_detailParticipant.php");
         break;
     case 'ajouterParticipant':
@@ -184,9 +188,9 @@ switch($action)
                     $codeTarif = $stageTarif['Code'];
                     $nomStage = $unStage['Libellé'];
                     deleteOperation($_GET['numlic'], $participant['Numéro_stage']);
-                    insertOperation($unLicencié, $tarif, $codeTarif, $nomStage, $participant['Numéro_stage']);
 
                     modifierParticipant($data, $_GET['numero'], $_GET['numlic']);
+                    insertEditOperation($unLicencié, $tarif, $codeTarif, $nomStage, $participant['Numéro_stage']);
 
 
         
@@ -202,17 +206,6 @@ switch($action)
 	case 'tarif':
     {
         include("vues/v_stage_tarif.php");
-        break;
-    }
-    case 'reglement':
-    {
-        if(isset($_GET['participant']))
-        {
-            $debit = 0 - getStageDebit($_GET['participant']);
-            $credit = getStageCredit($_GET['participant']);
-            $solde = $debit + $credit;
-            include("vues/v_stage_reglement.php");
-        }
         break;
     }
     case 'comptes_reglement':

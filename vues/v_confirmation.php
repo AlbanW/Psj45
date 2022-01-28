@@ -13,30 +13,29 @@
         foreach($numéros as $numéro){
             if($_SESSION['type']=="licenciés"){
                 suppressionLicencié($numéro);
-                echo 'Le licencié '.$numéro.' a était supprimé.';
+                echo 'Le licencié '.$numéro.' a été supprimé.';
             }
             elseif($_SESSION['type']=="comptes"){
                 suppressionCompte($numéro);
-                echo 'Le compte '.$numéro.' a était supprimé.';
+                echo 'Le compte '.$numéro.' a été supprimé.';
             }
             elseif($_SESSION['type']=="familles"){
                 suppressionFamilles($numéro);
-                echo 'La famille '.$numéro.' a était supprimé.';
+                echo 'La famille '.$numéro.' a été supprimé.';
             }
             elseif($_SESSION['type']=="tarifs"){
                 supprimerTarif($numéro);
-                echo 'Le tarif '.$numéro.' a était supprimé.';
+                echo 'Le tarif '.$numéro.' a été supprimé.';
             }
             elseif($_SESSION['type']=="stages"){
                 supprimerStage($numéro);
-                echo 'Le stage '.$numéro.' a était supprimé.';
+                echo 'Le stage '.$numéro.' a été supprimé.';
             }
             elseif($_SESSION['type']=="tarifsStage"){
                 supprimerTarifStage($numéro);
-                echo 'Le tarif '.$numéro.' a était supprimé.';
+                echo 'Le tarif '.$numéro.' a été supprimé.';
             }
         }
-        echo'<script>setTimeout(() => { goBack(); }, 3000);</script>';
     }
     else{
         echo '<h2>Suppression</h2>';

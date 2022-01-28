@@ -34,7 +34,6 @@
                 <li><a href="#">Paramètres</a>
                     <ul>
                         <li><a href="index.php?p=stage&uc=gestionStages&action=tarif">Tarif</a></li>
-                        <li><a href="index.php?p=stage&uc=gestionStages&action=comptes_reglement">Règlement</a></li>
                     </ul>
                 </li>
                 <li><a href="#">'.$_SESSION['username'].'</a>

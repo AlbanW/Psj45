@@ -22,6 +22,7 @@
                 <li class="categorie_input">Libellé</li>
                 <li class="categorie_input">Date</li>
                 <li class="categorie_input">Code Tarif</li>
+                <li class="categorie_input">Nombre de participant</li>
             </ul>
             <br/>
             </span>
@@ -106,7 +107,7 @@
          <a href="index.php?p=stage&test=test&uc=gestionStages&action=voirStage&numero=<?php echo $unStage['ID']; ?>"><input readonly type="text" name="Numéro[]" id="Famille" class="formLicTaille10"  style="cursor: pointer;" value="<?php echo $unStage['Libellé']; ?>" />
          </a>
                 <input onchange="update()" type="text" id="Txt_Date" placeholder="Date" style="cursor: pointer;" value="<?php echo $listday?>">
-                <script type="text/javascript">
+                <!--script type="text/javascript">
                     ;(function($){
                         $.fn.datepicker.dates['FR'] = {
                         days: ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"],
@@ -136,9 +137,11 @@
                         $date = $("#Txt_Date").data('datepicker').getFormattedDate('yyyy-mm-dd');
                         document.cookie="selectedDays="+$date+";max-age=86400;";
                     }
-                </script>
-            </div>
-            <input type="text" name="Adresse[]" id="Adresse" class="formFamTailleVilleAdresse" value="<?php echo (getTarifsStageByNum($unStage['Num_Tarif'])['Libellé']);?>"/>
+                </script-->
+           </div>
+           <input type="text" name="Adresse[]" id="Adresse" class="formFamTailleVilleAdresse" value="<?php echo (getTarifsStageByNum($unStage['Num_Tarif'])['Libellé']);?>"/>
+           <input type="text" name="Adresse[]" id="Adresse" class="formFamTailleVilleAdresse" value="<?php echo (getAmountParticipantsInStage($unStage['ID']));?>"/>
+        
         </span>
         <?php
         }
