@@ -1,1 +1,1 @@
-## Documentation GSB
+http://gsb.munegunews.fr
